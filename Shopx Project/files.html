@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Details</title>
+  <style>
+    body {
+      background: #111;
+      color: #f5f5f5;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #1b1b1f;
+      border-radius: 12px;
+      padding: 18px;
+      border: 1px solid #333;
+    }
+
+    .back {
+      margin-bottom: 14px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .title {
+      font-size: 2rem;
+      margin: 6px 0;
+    }
+
+    .price {
+      color: #fff;
+      font-size: 1.4rem;
+      margin: 6px 0;
+    }
+
+    .desc {
+      margin: 14px 0;
+      line-height: 1.6;
+      color: #ddd;
+    }
+
+    .meta {
+      margin: 8px 0;
+    }
+
+    .image {
+      width: 100%;
+      max-height: 360px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid #444;
+    }
+
+    .detail-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 14px;
+      align-items: start;
+    }
+
+    .left-panel {
+      background: #121216;
+      border-radius: 12px;
+      border: 1px solid #333;
+      padding: 12px;
+    }
+
+    .right-panel {
+      background: #121216;
+      border-radius: 12px;
+      border: 1px solid #333;
+      padding: 14px;
+    }
+
+    .image {
+      width: 100%;
+      max-height: 420px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid #444;
+    }
+
+    .rating {
+      margin-top: 10px;
+      color: #ffd54f;
+      font-size: 1.15rem;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .detail-card {
+      background: #23232a;
+      border-radius: 8px;
+      border: 1px solid #2d2d3a;
+      padding: 10px;
+    }
+
+    .detail-card strong {
+      color: #fff;
+    }
+
+    .payment-row {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .payment-row select,
+    .payment-row input {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #444;
+      padding: 9px;
+      background: #0d0d12;
+      color: #fff;
+    }
+
+    .payment-row label {
+      color: #ccc;
+      font-weight: 600;
+    }
+
+    .product-actions {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #111;
+      background: #ffd54f;
+    }
+
+    .btn:hover {
+      filter: brightness(0.95);
+    }
+
+    .pay {
+      background: #28a745;
+      color: #fff;
+    }
+
+    .related-section {
+      margin-top: 20px;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .related-card {
+      background: #1e1f26;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 10px;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .related-card img {
+      width: 100%;
+      height: 120px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .related-card button {
+      border: none;
+      border-radius: 6px;
+      padding: 6px;
+      background: #ffd54f;
+      color: #111;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .default {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    /* Forced theme: white background + blue buttons */
+    html,
+    body {
+      background: #ffffff !important;
+      /* color: #0d133d !important; */
+    }
+
+    body::before {
+      background-image: none !important;
+    }
+
+    /* a,
+    a:visited {
+      color: #0b79d0 !important;
+    } */
+
+    /* .navbar,
+    .banner,
+    .card,
+    .product,
+    .container,
+    .left-panel,
+    .right-panel,
+    .detail-card,
+    .related-card {
+      background: rgba(255, 255, 255, 0.98) !important;
+      color: #0d133d !important;
+    } */
+
+    .navbar {
+      border-bottom: 2px solid rgba(30, 144, 255, 0.35) !important;
+    }
+
+    .navbar a {
+      color: #0d133d !important;
+    }
+
+    input,
+    textarea,
+    select {
+      background: #ffffff !important;
+      color: #0d133d !important;
+      border: 1px solid rgba(13, 19, 61, 0.18) !important;
+    }
+
+    button,
+    .cart-icon,
+    .cart-btn,
+    .details-btn,
+    .back-btn,
+    .checkout-btn,
+    .pay-btn,
+    .sling-back-btn,
+    .remove-btn,
+    .login-btn,
+    .logout,
+    .order-action,
+    .btn,
+    .btn:hover {
+      background: #111 !important;
+      color: #ffffff !important;
+      border: none !important;
+    }
+
+    button:hover,
+    .cart-icon:hover,
+    .cart-btn:hover,
+    .details-btn:hover,
+    .back-btn:hover,
+    .checkout-btn:hover,
+    .pay-btn:hover,
+    .sling-back-btn:hover,
+    .remove-btn:hover,
+    .login-btn:hover,
+    .logout:hover,
+    .order-action:hover,
+    .btn:hover {
+      background: #0b79d0 !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <a href="ecom.html" class="back">← Back to Shop</a>
+
+    <div id="detailsSection">
+      <p class="default">Loading product details...</p>
+    </div>
+  </div>
+
+  <script>
+    const products = {
+      "Men Casual Shirt": {
+        price: "₹999",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ20xPPtcmOCY8N_IOuz1yG878QIIflo-F5OQ&s",
+        description: "Soft cotton blend, slim fit, breathable for daily wear.",
+        sizes: "S, M, L, XL",
+        material: "60% cotton, 40% polyester",
+        sku: "MCAS001"
+      },
+      "Women Summer Dress": {
+        price: "₹1499",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmFLhHst6cZlw9gRWuwvj_1GQnF4wRzzFSkw&s",
+        description: "Lightweight floral summer dress with comfortable stretch.",
+        sizes: "XS, S, M, L",
+        material: "100% rayon",
+        sku: "WSD002"
+      },
+      "Men Jeans": {
+        price: "₹1299",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJS3OgBMDZnfSn9LX5PlxSgI_vw6s51RH0Fw&s",
+        description: "Durable denim with stretch and modern tapered design.",
+        sizes: "28, 30, 32, 34, 36",
+        material: "98% cotton, 2% elastane",
+        sku: "MJ003"
+      },
+      "Sports Shoes": {
+        price: "₹2499",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52Qu-DLcqjwWUHMeZxmDALbvZ3z2anfSOlg&s",
+        description: "Cushioned sole, breathable mesh, ideal for gym and running.",
+        sizes: "6, 7, 8, 9, 10, 11",
+        material: "Mesh upper, EVA sole",
+        sku: "SS004"
+      },
+      "Men Blazers": {
+        price: "₹2,999",
+        image: "https://assets0.mirraw.com/images/12545353/AR-021_Black_1_zoom.jpg?1718186208",
+        description: "Elegant woven blazer with soft lining and modern fit for formal looks.",
+        sizes: "M, L, XL",
+        material: "Polyester blend",
+        sku: "MB005"
+      },
+      "Women Blazers": {
+        price: "₹2,499",
+        image: "https://imagescdn.allensolly.com/img/app/product/3/39827512-16462857.jpg",
+        description: "Structured blazer with premium lapels, perfect for office meetings.",
+        sizes: "S, M, L",
+        material: "Polyester blend",
+        sku: "WB006"
+      },
+      "Mens Formal Shirts": {
+        price: "₹999",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI3PMUNYKlZa_mEPgH47AO78wn8mjYokos4w&s",
+        description: "Crisp formal shirt with easy-care fabric and regular fit.",
+        sizes: "S, M, L, XL",
+        material: "100% cotton",
+        sku: "MFS007"
+      },
+      "Womens Kurti": {
+        price: "₹1,199",
+        image: "https://suvidhafashion.com/cdn/shop/files/ps6048.jpg?v=1705387949&width=600",
+        description: "Comfortable kurti with detailed prints and flowy silhouette.",
+        sizes: "S, M, L, XL",
+        material: "Rayon",
+        sku: "WK008"
+      },
+      "Mens Formal Pants": {
+        price: "₹999",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzt5iv7gcqg-7XLiqDFyIkg1bjTXqBrNFZ9w&s",
+        description: "Tailored formal pants with stretch for all-day comfort.",
+        sizes: "30, 32, 34, 36",
+        material: "Polyester blend",
+        sku: "MFP009"
+      },
+      "Womens Party Wear Saree": {
+        price: "₹4,499",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEl6FID0Jby-K2EMvNfkHR76RYWswQppOaYg&s",
+        description: "Shimmering party saree with premium fabric and border detailing.",
+        sizes: "Free size",
+        material: "Silk blend",
+        sku: "WPS010",
+        rating: 4.8
+      },
+      "Adidas Mens Ultraboost": { price: "₹8,999", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHTv0koQ27MvVNzLKyMxgX5WBr0RH8YOkfGg&s", description: "High-performance running shoes with responsive boost technology.", sizes: "US 7, 8, 9, 10", material: "Primeknit upper", sku: "AMU011", rating: 4.8 },
+      "Adidas Womens TShirt": { price: "₹1,299", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl0kguexbSonkI2FddCwPT6psc3LIDWryGdA&s", description: "Comfortable t-shirt with breathable fabric and modern fit.", sizes: "S, M, L, XL", material: "100% cotton", sku: "AWT012", rating: 4.4 },
+      "Adidas Mens Hoodie": { price: "₹3,199", image: "https://5.imimg.com/data5/SELLER/Default/2021/8/UQ/EL/AM/109026833/adidas-mens-hoodies.jpg", description: "Comfortable hoodie with soft fleece lining and modern design.", sizes: "S, M, L, XL", material: "Polyester blend", sku: "AMH014", rating: 4.5 },
+      "Adidas Womens Track Pants": { price: "₹2,399", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREtl2wRW3cFNh86TT0EAyNxMFifFg7ZitKDA&s", description: "Comfortable track pants for workouts.", sizes: "S, M, L, XL", material: "Polyester", sku: "AWTP013", rating: 4.3 },
+      "Gucci Leather Handbag": { price: "₹45,000", image: "https://cdn.clothbase.com/uploads/af71de3f-c707-47b2-950f-f306dc138833/010105408601_52.jpg", description: "Premium leather handbag with craftsmanship details.", sizes: "One size", material: "Leather", sku: "GLH015", rating: 4.9 },
+      "Gucci Sunglasses": { price: "₹15,999", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM8zIMvIPzBw3ihDOOblL04Nr3cTclPElIEw&s", description: "Designer sunglasses with UV protection.", sizes: "One size", material: "Acetate", sku: "GS016", rating: 4.8 },
+      "Gucci Sneakers": { price: "₹39,999", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPJZlNkv8PjdFU2x8kkRispAcVZbbB00koQg&s", description: "Luxury streetwear sneakers.", sizes: "6-11", material: "Leather", sku: "GSK017", rating: 4.7 },
+      "Gucci Belt": { price: "₹12,999", image: "https://cdn-images.farfetch-contents.com/16/63/69/45/16636945_56458496_1000.jpg", description: "Iconic designer belt.", sizes: "S, M, L", material: "Leather", sku: "GB018", rating: 4.6 },
+      "H&M Casual Shirt": { price: "₹1,299", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdQQWPDaYlXZZl1yRHLBb3_JnPvY_gQ23E6ml51lYvO51LvhPf", description: "Casual cotton shirt for daily wear.", sizes: "S, M, L, XL", material: "Cotton blend", sku: "HMCS019", rating: 4.2 },
+      "H&M Women Top": { price: "₹999", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmWoAPFdLy4zUr645cvSidmDHQM3t6Iau1FQ&s", description: "Comfortable and stylish women’s top.", sizes: "S, M, L", material: "Cotton", sku: "HMWT020", rating: 4.3 },
+      "H&M Denim Jeans": { price: "₹1,899", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPcpgePFCtVxQpdtRn2S7iVXfe5kR_GAqn7w&s", description: "Stretch denim jeans with classic fit.", sizes: "28, 30, 32, 34", material: "Denim", sku: "HMDJ021", rating: 4.4 },
+      "H&M Hoodie": { price: "₹2,299", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNwAkZ7n6Ydap0uZQFwruTTNInG1UJb-81_Q&s", description: "Cozy hoodie for everyday comfort.", sizes: "S, M, L, XL", material: "Cotton blend", sku: "HMH022", rating: 4.5 },
+      "Levi's 501 Original Jeans": { price: "₹3,299", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7TwOSQgAJ-3BrhmIiO8PDFagpu6zRU8P6w&s", description: "Classic straight-fit jeans.", sizes: "28, 30, 32, 34, 36", material: "Denim", sku: "L501023", rating: 4.7 },
+      "Levi's Denim Jacket": { price: "₹4,199", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg3LbBoKs-fZnqMqk-zRc3tNoPx5v1SSfaZw&s", description: "Durable denim jacket with classic style.", sizes: "M, L, XL", material: "Denim", sku: "LDJ024", rating: 4.6 },
+      "Levi's Casual Shirt": { price: "₹2,199", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNN3YSVJjachcRMT7F_SVOOLZTJFTD_vIwNA&s", description: "Smart-casual shirt with lightweight fabric.", sizes: "S, M, L, XL", material: "Cotton", sku: "LCS025", rating: 4.5 },
+      "Levi's Slim Fit Jeans": { price: "₹2,799", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNOFgbsc1Cp8ZiPUxxgiWilP1P6xq4dWNfFg&s", description: "Modern slim fit jeans.", sizes: "28, 30, 32, 34, 36", material: "Denim", sku: "LSJ026", rating: 4.4 },
+      "Nike Air Max Shoes": { price: "₹7,999", image: "https://assets.myntassets.com/w_360,q_50,,dpr_2,fl_progressive,f_webp/assets/images/25505296/2023/10/16/ca6afaac-a91d-488e-babb-9a6da3308d671697466765687NikeAirMaxExceeMenCasualShoes1.jpg", description: "Air Max shoes with cushioned sole.", sizes: "7-11", material: "Mesh", sku: "NAM027", rating: 4.6 },
+      "Nike Running Shoes": { price: "₹5,499", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxICHJOBmB4shli3OHnzIx_lRkayCr5YrgJw&s", description: "Lightweight running shoes.", sizes: "7-11", material: "Mesh and rubber", sku: "NRS028", rating: 4.5 },
+      "Nike Sports T-Shirt": { price: "₹1,299", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5e5hlWIMi7TkJcrfPS0LElQluAA7Oezhp4Q&s", description: "Breathable workout tee.", sizes: "S, M, L, XL", material: "Polyester", sku: "NST029", rating: 4.4 },
+      "Nike Hoodie": { price: "₹3,499", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBy8hRuzlVdxCtJVt6adf2YNh2Gv7C6hnCVA&s", description: "Soft hoodie for sporty style.", sizes: "S, M, L, XL", material: "Cotton blend", sku: "NH030", rating: 4.4 },
+      "Nike Track Pants": { price: "₹2,299", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI2IJidbDBpJ3imWuomsqYr43jGcMegQ-qkA&s", description: "Athletic track pants with stretchy fit.", sizes: "S, M, L, XL", material: "Polyester", sku: "NTP031", rating: 4.3 },
+      "Nike Sports Jacket": { price: "₹4,999", image: "https://m.media-amazon.com/images/I/61RPD63T3CL._AC_UY1100_.jpg", description: "Wind-resistant training jacket.", sizes: "S, M, L, XL", material: "Polyester", sku: "NSJ032", rating: 4.5 },
+      "Nike Backpack": { price: "₹2,999", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCQyTumeZkASD_n4JEteiHv-t0BDtnm5ntRA&s", description: "Versatile backpack for gym and college.", sizes: "One size", material: "Polyester", sku: "NB033", rating: 4.4 },
+      "Puma Mens Running Shoes": { price: "₹4,999", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwR61h6-mrz116hgsTZvqVbTPJft5Ihu43uw&s", description: "Dynamic running shoes with comfort.", sizes: "7-11", material: "Mesh", sku: "PMR034", rating: 4.4 },
+      "Puma Womens Running Shoes": { price: "₹3,799", image: "https://images.puma.net/images/378456/07/sv01/fnd/IND/w/800/h/800/", description: "Lightweight running shoes for women.", sizes: "5-9", material: "Mesh", sku: "PWR035", rating: 4.3 },
+      "Puma Mens Sports T-Shirt": { price: "₹1,299", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4IsgSyGOYdGzHzB76osL_F_fOaZZcPnvzUg&s", description: "Quick-dry sports tee.", sizes: "S, M, L, XL", material: "Polyester", sku: "PMS036", rating: 4.3 },
+      "Puma Womens Sports T-Shirt": { price: "₹1,299", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2YEq0BpUx15rCZnCqunEVXli-11EhJH4RZQ&s", description: "Comfortable training top.", sizes: "S, M, L", material: "Polyester", sku: "PWS037", rating: 4.2 },
+      "Puma Mens Hoodie": { price: "₹3,799", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmyXMwioauv47FXM7voZe0UIu-8SLbThSajw&s", description: "Warm sporty hoodie.", sizes: "S, M, L, XL", material: "Cotton blend", sku: "PMH038", rating: 4.4 },
+      "Puma Womens Hoodie": { price: "₹2,799", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_EECMu9P8Lzy3vlAKoQsjrHXimC4sAA0P4A&s", description: "Stylish relaxed hoodie.", sizes: "S, M, L", material: "Cotton blend", sku: "PWH039", rating: 4.3 },
+      "Puma Mens Track Pants": { price: "₹1,999", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3JXFj98albGKkQ585MaQ-y6vlmzNbdygDQQ&s", description: "Comfy track pants with tapered fit.", sizes: "S, M, L, XL", material: "Polyester", sku: "PMTP040", rating: 4.4 },
+      "Puma Womens Track Pants": { price: "₹1,599", image: "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_600,h_600/global/589840/01/mod03/fnd/IND/fmt/png/PUMA-International-Women's-Track-Pants", description: "Lightweight women’s track pants.", sizes: "S, M, L", material: "Polyester", sku: "PWTP041", rating: 4.3 },
+      "RayBan Aviator Sunglasses": { price: "₹9,999", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlRB5YCYOmigWmRo7LYc-ZkKVoFPRgUFxvhg&s", description: "Classic aviator sunglasses.", sizes: "One size", material: "Metal", sku: "RBAS042", rating: 4.8 },
+      "RayBan Wayfarer Sunglasses": { price: "₹8,499", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRCOadRk0ZV2rp4yovZgMjojBr0lRdLXB2WA&s", description: "Iconic wayfarer style.", sizes: "One size", material: "Acetate", sku: "RBWS043", rating: 4.7 },
+      "RayBan Round Metal Glasses": { price: "₹7,999", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLT6IJ_sBusKbedncsLgJlJjTRyWte0j0bcQ&s", description: "Retro round metal frames.", sizes: "One size", material: "Metal", sku: "RBRM044", rating: 4.6 },
+      "RayBan Clubmaster Sunglasses": { price: "₹10,499", image: "https://rukminim2.flixcart.com/image/480/640/xif0q/sunglass/m/a/s/this-product-is-sold-as-free-size-by-the-brand-trendy-royal-gold-original-imagnyyqc775hy5w.jpeg?q=90", description: "Classic clubmaster eyewear.", sizes: "One size", material: "Acetate", sku: "RBCL045", rating: 4.8 },
+      "Zara Women Traditional Wear": { price: "₹3,499", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn57aG4uzj2-YUt2Gxc64Ga7vMzvnAGWi1Vw&s", description: "Elegant traditional outfit with modern patterns.", sizes: "S, M, L", material: "Silk blend", sku: "ZWT046", rating: 4.5 },
+      "Zara Womens Jacket": { price: "₹2,199", image: "https://media1.popsugar-assets.com/files/thumbor/p95j5NXI-mGJGxHwLuoF7auzN5k=/fit-in/792x1188/filters:format_auto():upscale()/2021/11/10/768/n/1922564/42dfcfbe7e913043_netimgzY2FFo.jpg", description: "Chic jacket for daily style.", sizes: "S, M, L", material: "Polyester blend", sku: "ZWJ047", rating: 4.4 },
+      "Zara Mens Casual Shirt": { price: "₹999", image: "https://rukminim2.flixcart.com/image/480/580/xif0q/shirt/x/w/k/m-classic-plain-stretch-shirt-zara-men-original-imagzv9ywsdggaw9.jpeg?q=90", description: "Smart casual shirt.", sizes: "S, M, L, XL", material: "Cotton blend", sku: "ZMS048", rating: 4.2 },
+      "Zara Skirt": { price: "₹1,499", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_E2zDei0X8sMF5b9DK_ct26OlH8mJh0aLQ&s", description: "Comfortable skirt with modern cut.", sizes: "S, M, L", material: "Cotton blend", sku: "ZS049", rating: 4.1, offer: "15% off with code ZARA15", location: "Zara Store, Bandra, Mumbai" },
+      "Boys Shoes": {
+        price: "₹1,569",
+        image: "https://i.pinimg.com/736x/42/7f/ed/427feda0ddb2ce07e19a2b68d26d797e.jpg",
+        description: "Comfortable and durable shoes for boys.",
+        sizes: "1, 2, 3, 4, 5",
+        material: "Synthetic",
+        sku: "KBS001",
+        rating: 4.3
+      },
+      "Girl Shoes": {
+        price: "₹1,498",
+        image: "https://i.pinimg.com/736x/f3/df/b4/f3dfb4900fc4405db8e4aaa2764a7cc5.jpg",
+        description: "Stylish shoes for girls with soft sole.",
+        sizes: "1, 2, 3, 4",
+        material: "Synthetic",
+        sku: "KGS002",
+        rating: 4.4
+      },
+      "Girls Backpack": {
+        price: "₹1,899",
+        image: "https://i.pinimg.com/1200x/d5/29/b1/d529b1e9fc15f6a1f4b17861ec6923be.jpg",
+        description: "Cute and spacious backpack for girls.",
+        sizes: "One size",
+        material: "Polyester",
+        sku: "KGB003",
+        rating: 4.5
+      },
+      "Boys Backpack": {
+        price: "₹1,899",
+        image: "https://i.pinimg.com/736x/eb/26/cf/eb26cf83675fa068929c42352ab75a58.jpg",
+        description: "Durable backpack for school use.",
+        sizes: "One size",
+        material: "Polyester",
+        sku: "KBB004",
+        rating: 4.4
+      },
+      "Boys Bottom": {
+        price: "₹999",
+        image: "https://i.pinimg.com/1200x/7c/63/e0/7c63e032ccb1e1c534a8d1a2c765857a.jpg",
+        description: "Comfortable boys bottom wear.",
+        sizes: "S, M, L",
+        material: "Cotton",
+        sku: "KBB005",
+        rating: 4.2
+      },
+      "Girls Bottom": {
+        price: "₹899",
+        image: "https://i.pinimg.com/1200x/5a/c9/c1/5ac9c1d934f0fc140bd609f175e42f24.jpg",
+        description: "Soft and stylish girls bottom wear.",
+        sizes: "S, M, L",
+        material: "Cotton",
+        sku: "KGB006",
+        rating: 4.3
+      },
+      "Boys Top": {
+        price: "₹998",
+        image: "https://i.pinimg.com/1200x/fe/15/20/fe15202f2ae24d1ff804c04810aa44b1.jpg",
+        description: "Casual boys top for daily wear.",
+        sizes: "S, M, L",
+        material: "Cotton",
+        sku: "KBT007",
+        rating: 4.2
+      },
+      "Girls Top": {
+        price: "₹999",
+        image: "https://i.pinimg.com/736x/2e/5a/ef/2e5aef39048f15b6744a746ce9f7f9b8.jpg",
+        description: "Stylish girls top.",
+        sizes: "S, M, L",
+        material: "Cotton",
+        sku: "KGT008",
+        rating: 4.3
+      },
+      "Boys Ethinic Wear": {
+        price: "₹1,699",
+        image: "https://i.pinimg.com/736x/fb/cc/a3/fbcca3c7dd64f0e99f29ea48277b32dc.jpg",
+        description: "Traditional wear for boys.",
+        sizes: "S, M, L",
+        material: "Silk blend",
+        sku: "KBE009",
+        rating: 4.4
+      },
+      "Girls Ethinic Wear": {
+        price: "₹1,899",
+        image: "https://i.pinimg.com/736x/de/72/3f/de723f20efbcd75a2387f0aa9503b49a.jpg",
+        description: "Elegant ethnic wear for girls.",
+        sizes: "S, M, L",
+        material: "Silk blend",
+        sku: "KGE010",
+        rating: 4.5
+      }
+    };
+
+    Object.keys(products).forEach((key) => {
+      const p = products[key];
+      if (!p.offer) p.offer = "Flat 10% off on prepaid orders";
+      if (!p.location) p.location = "Noida distribution center";
+    });
+
+    function getProductKey() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("product") || "";
+    }
+
+    function renderDetails() {
+      // console.log("Selected product:", key);
+      const key = getProductKey();
+      const section = document.getElementById("detailsSection");
+      if (!section) return;
+
+      if (!key || !products[key]) {
+        section.innerHTML = `<p class="default">Product not found. Go back to <a href=\"ecom.html\">Shop</a> and choose another item.</p>`;
+        return;
+      }
+
+      const p = products[key];
+      const stars = "★".repeat(Math.floor(p.rating || 4.5)) + "☆".repeat(5 - Math.floor(p.rating || 4.5));
+      section.innerHTML = `
+        <div class="detail-layout">
+          <div class="left-panel">
+            <img src="${p.image}" alt="${key}" class="image" />
+          </div>
+          <div class="right-panel">
+            <div class="title">${key}</div>
+            <div class="price">${p.price}</div>
+            <div class="rating">${stars} (${(p.rating || 4.5).toFixed(1)} / 5)</div>
+            <p class="desc">${p.description}</p>
+            <div class="detail-grid">
+              <div class="detail-card"><strong>SKU:</strong> ${p.sku}</div>
+              <div class="detail-card"><strong>Sizes:</strong> ${p.sizes}</div>
+              <div class="detail-card"><strong>Material:</strong> ${p.material}</div>
+              <div class="detail-card"><strong>Category:</strong> Fashion Apparel</div>
+              <div class="detail-card"><strong>Offer:</strong> ${p.offer || 'No current offer'}</div>
+              <div class="detail-card"><strong>Location:</strong> ${p.location || 'Unknown warehouse'}</div>
+            </div>
+            <div class="payment-row">
+              <label for="addressInput">Delivery Address</label>
+              <input id="addressInput" type="text" placeholder="Enter full shipping address" value="${p.location || 'Your local address'}" />
+              <label for="paymentMethod">Payment Method</label>
+              <select id="paymentMethod">
+                <option value="UPI">UPI</option>
+                <option value="Card">Credit/Debit Card</option>
+                <option value="NetBanking">Net Banking</option>
+                <option value="COD">Cash on Delivery</option>
+              </select>
+            </div>
+            <div class="product-actions">
+              <button class="btn" id="addCartBtn">Add to Cart</button>
+              <button class="btn pay" id="payBtn">Pay Now</button>
+            </div>
+          </div>
+        </div>
+        <div id="relatedSection" class="related-section"></div>`;
+
+      document.getElementById('addCartBtn')?.addEventListener('click', () => {
+        addToCart(p, key);
+      });
+      document.getElementById('payBtn')?.addEventListener('click', () => {
+        const method = document.getElementById('paymentMethod')?.value || 'UPI';
+        const address = document.getElementById('addressInput')?.value || 'No address provided';
+        payNow(key, p.price, method, address);
+      });
+      renderRelatedProducts(key);
+    }
+
+    function renderRelatedProducts(currentKey) {
+      const related = document.getElementById('relatedSection');
+      if (!related) return;
+      const keys = Object.keys(products).filter((k) => k !== currentKey);
+      const sample = keys.sort(() => Math.random() - 0.5).slice(0, 3);
+      related.innerHTML = `
+        <h3 style="margin-top:20px;color:#fff;font-size:1.2rem;">Related Products</h3>
+        <div class="related-grid">
+          ${sample
+          .map((key) => {
+            const product = products[key];
+            return `<div class="related-card"><img src="${product.image}" alt="${key}" /><div><strong>${key}</strong><div style='color:#ddf; margin-top:4px;'>${product.price}</div></div><button class='details-btn' data-key='${encodeURIComponent(key)}'>View</button></div>`;
+          })
+          .join('')}
+        </div>`;
+      related.querySelectorAll('.details-btn').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          const key = decodeURIComponent(e.target.dataset.key || '');
+          if (key) window.location.href = `files.html?product=${encodeURIComponent(key)}`;
+        });
+      });
+    }
+
+    function addToCart(product, name) {
+      try {
+        const cartKey = 'shopx_cart_v1';
+        const cartRaw = localStorage.getItem(cartKey);
+        const current = Array.isArray(cartRaw ? JSON.parse(cartRaw) : []) ? JSON.parse(cartRaw || '[]') : [];
+        const priceNumber = Number(String(product.price || "0").replace(/[^\d]/g, "")) || 0;
+        // Keep cart data consistent with other pages (cart expects `item` + numeric `price`)
+        const item = { item: name, price: priceNumber, image: product.image || "" };
+        current.push(item);
+        localStorage.setItem(cartKey, JSON.stringify(current));
+        alert(`${name} added to cart.`);
+      } catch (err) {
+        console.error('Add to cart failed', err);
+        alert('Could not add to cart. Please enable localStorage or try again.');
+      }
+    }
+
+    function payNow(name, price, method, address) {
+      alert(`Proceeding to payment for ${name} (${price}) via ${method}.\nDeliver to: ${address}`);
+    }
+
+    const BG_KEY = 'shopx_bg_v1';
+    function setBg(theme) {
+      let bodyBg = 'radial-gradient(circle at 20% 10%, #ff3f3f, #0d133d 45%, #050916 100%)';
+      let containerBg = '#1b1b1f';
+      let cardBg = '#121216';
+      let titleColor = '#fff';
+      let buttonBg = '#ffd54f';
+      if (theme === 'blue') {
+        bodyBg = 'radial-gradient(circle at 20% 10%, #4087ff, #10214c 45%, #05102d 100%)';
+        containerBg = '#0d1736';
+        cardBg = '#121d3a';
+        titleColor = '#e9f2ff';
+        buttonBg = '#1e90ff';
+      }
+      if (theme === 'white') {
+        bodyBg = 'radial-gradient(circle at 20% 10%, #ffffff, #e8e8ff 45%, #d9dcf5 100%)';
+        containerBg = '#f5f7ff';
+        cardBg = '#e9ebff';
+        titleColor = '#111';
+        buttonBg = '#0d47a1';
+      }
+      if (theme === 'gold-black') {
+        bodyBg = 'radial-gradient(circle at 20% 10%, #f8d147, #3f2d01 45%, #09090a 100%)';
+        containerBg = '#2b230d';
+        cardBg = '#1f1a0f';
+        titleColor = '#fff';
+        buttonBg = '#cc8400';
+      }
+      document.body.style.background = bodyBg;
+      document.querySelectorAll('.container').forEach((el) => { el.style.background = containerBg; });
+      document.querySelectorAll('.left-panel, .right-panel, .detail-card, .related-card').forEach((el) => { el.style.background = cardBg; });
+      document.querySelectorAll('.title, .price, .desc, .detail-row label').forEach((el) => { if (el) el.style.color = titleColor; });
+      document.querySelectorAll('.btn').forEach((el) => { el.style.background = buttonBg; if (theme === 'white') { el.style.color = '#fff'; } else { el.style.color = '#111'; } });
+    }
+    function loadBg() {
+      const saved = localStorage.getItem(BG_KEY) || 'original';
+      setBg(saved);
+    }
+    loadBg();
+    renderDetails();
+  </script>
+</body>
+
+</html>

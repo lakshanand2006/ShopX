@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zara Products | ShopX</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #ffffff;
+      color: #111;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: #111;
+      border-bottom: 1px solid #e5e5e5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+    }
+
+    .logo {
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    /* Search */
+    .search input {
+      padding: 8px 12px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      width: 220px;
+    }
+
+    /* Links */
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      margin-left: 12px;
+      font-weight: 600;
+    }
+
+    /* Cart */
+    .cart-icon {
+      background: rgb(212, 211, 211);
+      color: black;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    /* Banner */
+    .banner {
+      max-width: 1100px;
+      margin: 20px auto;
+      background: rgb(212, 211, 211);
+      padding: 30px;
+      text-align: center;
+      border-radius: 10px;
+    }
+
+    .banner h1 {
+      font-size: 2rem;
+      margin-bottom: 5px;
+    }
+
+    /* Back button */
+    .sling-back-btn {
+      display: inline-block;
+      margin: 10px 20px;
+      background: #111;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 20px;
+      text-decoration: none;
+    }
+
+    /* Products */
+    .products {
+      max-width: 1100px;
+      margin: auto;
+      padding: 15px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    /* Product card */
+    .product {
+      background: rgb(212, 211, 211);
+      border: 1px solid #eee;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: 0.3s;
+    }
+
+    .product:hover {
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .product img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .product h3 {
+      margin: 10px;
+      font-size: 15px;
+    }
+
+    .price {
+      margin: 0 10px;
+      color: #111;
+      font-weight: bold;
+    }
+
+    /* Buttons */
+    .product-button {
+      display: flex;
+      gap: 8px;
+      padding: 10px;
+    }
+
+    .details-btn {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 6px;
+      background: black;
+      color: white;
+      cursor: pointer;
+    }
+
+    .details-btn:hover {
+      background: #777;
+    }
+
+    .cart-btn {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 6px;
+      background: black;
+      color: white;
+      cursor: pointer;
+    }
+
+    .cart-btn:hover {
+      background: #333;
+    }
+
+    /* Footer */
+    footer {
+      background: #111;
+      text-align: center;
+      padding: 50px;
+      border-top: 1px solid #eee;
+      margin-top: 20px;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+
+    <div class="logo">ShopX</div>
+
+    <div class="search">
+      <input type="text" placeholder="Search products">
+    </div>
+
+    <div>
+      <a href="ecom.html">Home</a>
+      <a href="login.html">Login</a>
+    </div>
+
+    <button class="cart-icon">
+      🛒 (<span id="cartCount">0</span>)<span style="font-weight:900; margin-left:6px; opacity:.95">| <span
+          id="cartSubtotal">₹0</span></span>
+    </button>
+
+  </div>
+
+  <!-- Banner -->
+  <div class="banner">
+    <h1>Zara Collection</h1>
+    <p>Premium Fashion</p>
+  </div>
+
+  <a href="ecom.html" class="sling-back-btn">← Back</a>
+
+  <!-- Products -->
+  <section class="products">
+
+    <div class="product-grid">
+
+      <div class="product">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn57aG4uzj2-YUt2Gxc64Ga7vMzvnAGWi1Vw&s">
+        <h3>Zara Women Traditional Wear</h3>
+        <p class="price">₹3499</p>
+        <div class="product-button">
+          <!-- <button class="details-btn">View Details</button> -->
+          <button class="details-btn" data-key="Zara Women Traditional Wear">View Details</button>
+          <button class="cart-btn" onclick="addToCart(this)">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product">
+        <img
+          src="https://media1.popsugar-assets.com/files/thumbor/p95j5NXI-mGJGxHwLuoF7auzN5k=/fit-in/792x1188/filters:format_auto():upscale()/2021/11/10/768/n/1922564/42dfcfbe7e913043_netimgzY2FFo.jpg">
+        <h3>Zara Womens Jacket</h3>
+        <p class="price">₹2199</p>
+        <div class="product-button">
+          <!-- <button class="details-btn">View Details</button> -->
+          <button class="details-btn" data-key="Zara Womens Jacket">View Details</button>
+          <button class="cart-btn" onclick="addToCart(this)">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product">
+        <img
+          src="https://rukminim2.flixcart.com/image/480/580/xif0q/shirt/x/w/k/m-classic-plain-stretch-shirt-zara-men-original-imagzv9ywsdggaw9.jpeg?q=90">
+        <h3>Zara Mens Casual Shirt</h3>
+        <p class="price">₹999</p>
+        <div class="product-button">
+          <!-- <button class="details-btn">View Details</button> -->
+          <button class="details-btn" data-key="Zara Mens Casual Shirt">View Details</button>
+          <button class="cart-btn" onclick="addToCart(this)">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_E2zDei0X8sMF5b9DK_ct26OlH8mJh0aLQ&s">
+        <h3>Zara Skirt</h3>
+        <p class="price">₹1499</p>
+        <div class="product-button">
+          <!-- <button class="details-btn">View Details</button> -->
+          <button class="details-btn" data-key="Zara Skirt">View Details</button>
+          <button class="cart-btn" onclick="addToCart(this)">Add to Cart</button>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <footer>
+    © 2026 ShopX Store
+  </footer>
+
+  <script>
+
+    /* Cart system same as adidas */
+
+    const CART_KEY = "shopx_cart_v1";
+    const cart = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+
+    updateCart();
+
+    function addToCart(button) {
+      const card = button.closest(".product");
+
+      const name = card.querySelector("h3").innerText;
+      const price = Number(card.querySelector(".price").innerText.replace(/[^\d]/g, ""));
+      const image = card.querySelector("img").src;
+
+      cart.push({ name, price, image });
+
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+
+      updateCart();
+    }
+
+    function updateCart() {
+      document.getElementById("cartCount").innerText = cart.length;
+    }
+
+    /* View details */
+
+    document.querySelectorAll(".details-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const card = btn.closest(".product");
+        // const name = card.querySelector("h3").innerText;
+        // window.location.href = "files.html?product=" + encodeURIComponent(name);
+        document.querySelectorAll(".details-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const key = btn.dataset.key;
+            window.location.href = "files.html?product=" + encodeURIComponent(key);
+          });
+        });
+      });
+    });
+
+  </script>
+
+</body>
+
+</html>

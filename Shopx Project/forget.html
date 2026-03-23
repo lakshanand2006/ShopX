@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopX Forgot Password</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* Background */
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(212, 211, 211);
+      color: #000;
+    }
+
+    /* Container */
+    .box {
+      width: 360px;
+      padding: 30px;
+      border: 1px solid #e5e5e5;
+      background: #fff;
+      text-align: center;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 1.35);
+    }
+
+    /* Title */
+    .title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      margin-bottom: 20px;
+      color: #666;
+    }
+
+    /* Inputs */
+    .field {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .field label {
+      font-size: 13px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+
+    .field input:focus {
+      border-color: #000;
+    }
+
+    /* Button */
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background: #000;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background: #333;
+    }
+
+    /* Message */
+    .message {
+      margin-top: 10px;
+      font-size: 13px;
+      display: none;
+    }
+
+    .message.success {
+      color: green;
+    }
+
+    .message.error {
+      color: red;
+    }
+
+    /* Links */
+    .note {
+      margin-top: 15px;
+      font-size: 13px;
+    }
+
+    .note a {
+      color: #000;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .note a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+
+    <div class="title">Reset Password</div>
+    <div class="subtitle">Enter your email and new password</div>
+
+    <div class="field">
+      <label>Email</label>
+      <input id="email" type="email" placeholder="Enter your email">
+    </div>
+
+    <div class="field">
+      <label>New Password</label>
+      <input id="newPassword" type="password" placeholder="New password">
+    </div>
+
+    <div class="field">
+      <label>Confirm Password</label>
+      <input id="confirmPassword" type="password" placeholder="Confirm password">
+    </div>
+
+    <button id="resetBtn" class="btn">Reset Password</button>
+
+    <div id="result" class="message"></div>
+
+    <div class="note">
+      Back to <a href="login.html">Login</a> |
+      <a href="signup.html">Sign Up</a>
+    </div>
+
+  </div>
+
+  <script>
+
+    const ACCOUNT_KEY = 'shopx_account_v1';
+    const result = document.getElementById('result');
+
+    function show(msg, ok) {
+      result.style.display = 'block';
+      result.className = 'message ' + (ok ? 'success' : 'error');
+      result.textContent = msg;
+    }
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const pw = document.getElementById('newPassword').value.trim();
+      const cp = document.getElementById('confirmPassword').value.trim();
+
+      if (!email || !pw || !cp) {
+        show('Fill all fields');
+        return;
+      }
+
+      if (pw.length < 5) {
+        show('Password must be at least 5 characters');
+        return;
+      }
+
+      if (pw !== cp) {
+        show('Passwords do not match');
+        return;
+      }
+
+      const raw = localStorage.getItem(ACCOUNT_KEY);
+
+      if (!raw) {
+        show('No account found. Please sign up first');
+        return;
+      }
+
+      let acct;
+
+      try {
+        acct = JSON.parse(raw);
+      } catch {
+        acct = null;
+      }
+
+      if (!acct || acct.email !== email) {
+        show('Email not found');
+        return;
+      }
+
+      acct.password = pw;
+      localStorage.setItem(ACCOUNT_KEY, JSON.stringify(acct));
+
+      show('Password updated successfully!', true);
+
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 800);
+
+    });
+
+  </script>
+
+</body>
+
+</html>

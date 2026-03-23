@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShopX - Categories</title>
+  <style>
+    :root {
+      /* --bg: radial-gradient(circle at 20% 10%, #ff3f3f, #0d133d 45%, #050916 100%); */
+      --text: #f2f2ff;
+      --muted: rgba(242, 242, 255, .78);
+      --card: rgba(255, 255, 255, 0.95);
+      --accent: #ff2a2a;
+      --shadow: 0 14px 40px rgba(0, 0, 0, .35);
+      --shadow-soft: 0 10px 26px rgba(0, 0, 0, .22);
+      --accent-2: #ffd27f;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.45;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(140deg, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px 24px), linear-gradient(40deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 24px);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .navbar {
+      background: #111;
+      color: #fff;
+      padding: 12px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      /* border-bottom: 1px solid rgba(255, 63, 63, .55); */
+      /* backdrop-filter: blur(10px); */
+    }
+
+    .logo {
+      color: #fff;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      /* text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); */
+    }
+
+    .search input {
+      width: 280px;
+      border: 1px solid rgba(0, 0, 0, .08);
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.96);
+      color: #111;
+      outline: none;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, .18);
+      transition: box-shadow .2s ease, transform .2s ease;
+    }
+
+    .search input:focus {
+      box-shadow: 0 12px 26px rgba(0, 0, 0, .26);
+      transform: translateY(-1px);
+    }
+
+    .bg-buttons {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.8rem;
+      color: #fff;
+      margin-right: 12px;
+    }
+
+    .bg-buttons button {
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 10px;
+      padding: 6px 9px;
+      font-size: .75rem;
+      cursor: pointer;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      transition: transform .15s ease, background .15s ease;
+    }
+
+    .bg-buttons button:hover {
+      background: rgba(255, 255, 255, 0.22);
+      transform: translateY(-1px);
+    }
+
+    .cart-icon {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-weight: 800;
+      cursor: pointer;
+      /* box-shadow: 0 10px 22px rgba(255, 0, 0, 0.22); */
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .cart-icon:hover {
+      background: #d50707;
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(255, 0, 0, 0.28);
+    }
+
+    .banner {
+      margin: 18px auto 0;
+      max-width: 1100px;
+      background: rgba(212, 211, 211);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 18px;
+      padding: 22px;
+      text-align: center;
+      /* box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(10px); */
+    }
+
+    .banner h1 {
+      margin-bottom: 6px;
+      font-size: 2rem;
+      color: #111;
+      /* text-shadow: 0 0 18px rgba(255, 255, 255, 0.35); */
+    }
+
+    .banner p {
+      color: #111;
+      font-weight: 700;
+    }
+
+    .products {
+      padding: 14px;
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+
+    .products h2 {
+      margin: 10px 0 12px;
+      color: #111;
+      font-size: 1.8rem;
+      /* text-shadow: 0 0 10px rgba(0, 0, 0, 0.4); */
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .product {
+      background: rgba(212, 211, 211);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      transition: transform .2s ease, box-shadow .2s ease;
+      border: 1px solid rgba(0, 0, 0, .06);
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .product img {
+      height: 180px;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .product h3 {
+      margin: 10px 12px 4px;
+      font-size: 1.05rem;
+      color: #111;
+    }
+
+    .price {
+      margin: 8px 12px;
+      color: #111;
+      font-weight: 800;
+    }
+
+    .product-buttons {
+      display: flex;
+      gap: 8px;
+      margin: 10px 12px 12px;
+    }
+
+    .details-btn,
+    .cart-btn {
+      border: none;
+      border-radius: 12px;
+      padding: 10px 10px;
+      font-weight: 850;
+      cursor: pointer;
+      flex: 1;
+      transition: transform .16s ease, filter .16s ease, box-shadow .16s ease;
+    }
+
+    .details-btn {
+      background: #111;
+      color: #fff;
+      box-shadow: 0 10px 18px rgba(0, 0, 0, .18);
+    }
+
+    .details-btn:hover {
+      background: #383838;
+    }
+
+    .cart-btn {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 10px 18px rgba(255, 0, 0, .16);
+    }
+
+    .cart-btn:hover {
+      background: #d10f10;
+    }
+
+    footer {
+      background: #111;
+      text-align: center;
+      padding: 50px;
+      border-top: 1px solid #eee;
+      margin-top: 20px;
+      color: white;
+    }
+
+    body {
+      cursor: url('https://img.icons8.com/color/48/000000/white-dot-cursor.png'), auto;
+    }
+
+    .details-btn,
+    .cart-btn,
+    .back-btn,
+    .login-btn,
+    .checkout-btn,
+    .pay-btn {
+      cursor: url('https://img.icons8.com/fluency-systems-filled/24/ffffff/hand-cursor.png'), pointer;
+    }
+
+    @media (max-width: 720px) {
+      .navbar {
+        gap: 10px;
+        padding: 10px 12px;
+        flex-wrap: wrap;
+      }
+
+      .search {
+        width: 100%;
+      }
+
+      .search input {
+        width: 100%;
+      }
+
+      .banner {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+    }
+
+    /* Forced theme: white background + blue buttons */
+    html,
+    body {
+      background: #ffffff !important;
+      color: #0d133d !important;
+    }
+
+    body::before {
+      background-image: none !important;
+    }
+
+    /* a,
+    a:visited {
+      color: #0b79d0 !important;
+    } */
+
+    /* .navbar,
+    .banner,
+    .card,
+    .product,
+    .container,
+    .left-panel,
+    .right-panel,
+    .detail-card,
+    .related-card {
+      background: rgba(255, 255, 255, 0.98) !important;
+      color: #0d133d !important;
+    } */
+
+    .navbar {
+      border-bottom: 2px solid rgba(30, 144, 255, 0.35) !important;
+    }
+
+    .navbar a {
+      color: #fff !important;
+    }
+
+    input,
+    textarea,
+    select {
+      background: #ffffff !important;
+      color: #0d133d !important;
+      border: 1px solid rgba(13, 19, 61, 0.18) !important;
+    }
+
+    .sling-back-btn {
+      text-decoration: none;
+      background: #111 !important;
+      color: #ffffff !important;
+      border: none !important;
+      display: inline-block;
+      /* background: linear-gradient(135deg, #ff2a2a 0%, #c10000 65%, #570000 100%); */
+      color: #fff;
+      border: 1px solid #ff6e6e;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      /* box-shadow: 0 8px 18px rgba(255, 0, 0, 0.35), 0 0 8px rgba(255, 255, 255, 0.15); */
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform .15s ease, box-shadow .15s ease, background .2s ease;
+    }
+
+    button,
+    .cart-icon,
+    .cart-btn,
+    .details-btn,
+    .back-btn,
+    .checkout-btn,
+    .pay-btn,
+    .sling-back-btn,
+    .remove-btn,
+    .login-btn,
+    .logout,
+    .order-action {
+      background: #111 !important;
+      color: #ffffff !important;
+      border: none !important;
+    }
+
+    button:hover,
+    .cart-icon:hover,
+    .cart-btn:hover,
+    .details-btn:hover,
+    .back-btn:hover,
+    .checkout-btn:hover,
+    .pay-btn:hover,
+    .sling-back-btn:hover,
+    .remove-btn:hover,
+    .logout:hover,
+    .order-action:hover {
+      background: #0b79d0 !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <!-- BG/theme controls removed -->
+      <a href="ecom.html" style="text-decoration:none; color:#fff;">
+        <div class="logo">SHOPX</div>
+      </a>
+    </div>
+
+    <div class="search">
+      <input id="searchInput" type="text" placeholder="Search in this category" />
+    </div>
+
+    <button class="cart-icon" type="button" onclick="goToCartPage()">
+      🛒 Cart (<span id="cartCount">0</span>)
+    </button>
+  </div>
+
+  <div class="banner">
+    <h1 id="categoryTitle">Category</h1>
+    <p id="categorySubtitle">Fresh picks selected for you</p>
+  </div><br>
+
+  <a href="ecom.html" class="sling-back-btn">← Sling Back</a>
+
+  <section class="products">
+    <h2 id="categoryHeading">Products</h2>
+    <div class="product-grid" id="categoryGrid"></div>
+  </section>
+
+  <footer>
+    © 2026 ShopX Fashion Store
+  </footer>
+
+  <script>
+    // --- Products catalog (names must match keys in files.html "products" object) ---
+    const CATEGORY_PRODUCTS = {
+      mens: [
+        {
+          name: "H&M Casual Shirt",
+          price: "₹1,299",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdQQWPDaYlXZZl1yRHLBb3_JnPvY_gQ23E6ml51lYvO51LvhPf"
+        },
+        {
+          name: "Levi's Slim Fit Jeans",
+          price: "₹2,799",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNOFgbsc1Cp8ZiPUxxgiWilP1P6xq4dWNfFg&s"
+        },
+        {
+          name: "Nike Sports T-Shirt",
+          price: "₹1,299",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5e5hlWIMi7TkJcrfPS0LElQluAA7Oezhp4Q&s"
+        },
+        {
+          name: "Puma Mens Hoodie",
+          price: "₹3,799",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmyXMwioauv47FXM7voZe0UIu-8SLbThSajw&s"
+        },
+        {
+          name: "H&M Hoodie",
+          price: "₹2,299",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNwAkZ7n6Ydap0uZQFwruTTNInG1UJb-81_Q&s"
+        },
+        {
+          name: "Levi's 501 Original Jeans",
+          price: "₹3,299",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7TwOSQgAJ-3BrhmIiO8PDFagpu6zRU8P6w&s"
+        },
+        {
+          name: "Levi's Denim Jacket",
+          price: "₹4,199",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg3LbBoKs-fZnqMqk-zRc3tNoPx5v1SSfaZw&s"
+        },
+        {
+          name: "Levi's Casual Shirt",
+          price: "₹2,199",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNN3YSVJjachcRMT7F_SVOOLZTJFTD_vIwNA&s"
+        },
+        {
+          name: "Zara Mens Casual Shirt",
+          price: "₹999",
+          image: "https://rukminim2.flixcart.com/image/480/580/xif0q/shirt/x/w/k/m-classic-plain-stretch-shirt-zara-men-original-imagzv9ywsdggaw9.jpeg?q=90"
+        },
+        {
+          name: "RayBan Aviator Sunglasses",
+          price: "₹9,999",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlRB5YCYOmigWmRo7LYc-ZkKVoFPRgUFxvhg&s"
+        },
+        {
+          name: "RayBan Wayfarer Sunglasses",
+          price: "₹8,499",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRCOadRk0ZV2rp4yovZgMjojBr0lRdLXB2WA&s"
+        },
+        {
+          name: "RayBan Round Metal Glasses",
+          price: "₹7,999",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLT6IJ_sBusKbedncsLgJlJjTRyWte0j0bcQ&s"
+        },
+        {
+          name: "Gucci Sneakers",
+          price: "₹39,999",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPJZlNkv8PjdFU2x8kkRispAcVZbbB00koQg&s"
+        },
+        {
+          name: "Puma Mens Running Shoes",
+          price: "₹4,999",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwR61h6-mrz116hgsTZvqVbTPJft5Ihu43uw&s"
+        },
+        {
+          name: "Puma Mens Sports T-Shirt",
+          price: "₹1,299",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4IsgSyGOYdGzHzB76osL_F_fOaZZcPnvzUg&s"
+        },
+        {
+          name: "Puma Mens Track Pants",
+          price: "₹1,999",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3JXFj98albGKkQ585MaQ-y6vlmzNbdygDQQ&s"
+        },
+        {
+          name: "Adidas Mens Ultraboost",
+          price: "₹8,999",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHTv0koQ27MvVNzLKyMxgX5WBr0RH8YOkfGg&s"
+        },
+        {
+          name: "Adidas Mens Hoodie",
+          price: "₹3,199",
+          image: "https://5.imimg.com/data5/SELLER/Default/2021/8/UQ/EL/AM/109026833/adidas-mens-hoodies.jpg"
+        },
+        {
+          name: "Nike Air Max Shoes",
+          price: "₹7,999",
+          image: "https://assets.myntassets.com/w_360,q_50,,dpr_2,fl_progressive,f_webp/assets/images/25505296/2023/10/16/ca6afaac-a91d-488e-babb-9a6da3308d671697466765687NikeAirMaxExceeMenCasualShoes1.jpg"
+        },
+        {
+          name: "Nike Running Shoes",
+          price: "₹5,499",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxICHJOBmB4shli3OHnzIx_lRkayCr5YrgJw&s"
+        },
+        {
+          name: "Nike Hoodie",
+          price: "₹3,499",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBy8hRuzlVdxCtJVt6adf2YNh2Gv7C6hnCVA&s"
+        },
+        {
+          name: "Nike Track Pants",
+          price: "₹2,299",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI2IJidbDBpJ3imWuomsqYr43jGcMegQ-qkA&s"
+        },
+        {
+          name: "Nike Sports Jacket",
+          price: "₹4,999",
+          image: "https://m.media-amazon.com/images/I/61RPD63T3CL._AC_UY1100_.jpg"
+        },
+        {
+          name: "Nike Backpack",
+          price: "₹2,999",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCQyTumeZkASD_n4JEteiHv-t0BDtnm5ntRA&s"
+        },
+      ],
+      womens: [
+        {
+          name: "Adidas Womens TShirt",
+          price: "₹1,299",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl0kguexbSonkI2FddCwPT6psc3LIDWryGdA&s"
+        },
+        {
+          name: "H&M Women Top",
+          price: "₹999",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmWoAPFdLy4zUr645cvSidmDHQM3t6Iau1FQ&s"
+        },
+        {
+          name: "Puma Womens Running Shoes",
+          price: "₹3,799",
+          image: "https://images.puma.net/images/378456/07/sv01/fnd/IND/w/800/h/800/"
+        },
+        {
+          name: "Zara Womens Jacket",
+          price: "₹2,199",
+          image: "https://media1.popsugar-assets.com/files/thumbor/p95j5NXI-mGJGxHwLuoF7auzN5k=/fit-in/792x1188/filters:format_auto():upscale()/2021/11/10/768/n/1922564/42dfcfbe7e913043_netimgzY2FFo.jpg"
+        },
+        {
+          name: "Gucci Leather Handbag",
+          price: "₹45,000",
+          image: "https://cdn.clothbase.com/uploads/af71de3f-c707-47b2-950f-f306dc138833/010105408601_52.jpg"
+        },
+        {
+          name: "Gucci Sunglasses",
+          price: "₹15,999",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM8zIMvIPzBw3ihDOOblL04Nr3cTclPElIEw&s"
+        },
+        {
+          name: "Gucci Sneakers",
+          price: "₹39,999",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPJZlNkv8PjdFU2x8kkRispAcVZbbB00koQg&s"
+        },
+        {
+          name: "Gucci Belt",
+          price: "₹12,999",
+          image: "https://cdn-images.farfetch-contents.com/16/63/69/45/16636945_56458496_1000.jpg"
+        },
+        {
+          name: "Zara Women Traditional Wear",
+          price: "₹3,499",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn57aG4uzj2-YUt2Gxc64Ga7vMzvnAGWi1Vw&s"
+        },
+        {
+          name: "Zara Skirt",
+          price: "₹1,499",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_E2zDei0X8sMF5b9DK_ct26OlH8mJh0aLQ&s"
+        },
+        {
+          name: "RayBan Clubmaster Sunglasses",
+          price: "₹10,499",
+          image: "https://rukminim2.flixcart.com/image/480/640/xif0q/sunglass/m/a/s/this-product-is-sold-as-free-size-by-the-brand-trendy-royal-gold-original-imagnyyqc775hy5w.jpeg?q=90"
+        },
+        {
+          name: "RayBan Round Metal Glasses",
+          price: "₹7,999",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLT6IJ_sBusKbedncsLgJlJjTRyWte0j0bcQ&s  "
+        },
+        {
+          name: "Puma Womens Track Pants",
+          price: "₹1,599",
+          image: "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_600,h_600/global/589840/01/mod03/fnd/IND/fmt/png/PUMA-International-Women's-Track-Pants"
+        },
+        {
+          name: "Puma Womens Hoodie",
+          price: "₹2,799",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_EECMu9P8Lzy3vlAKoQsjrHXimC4sAA0P4A&s"
+        },
+        {
+          name: "Puma Womens Sports T-Shirt",
+          price: "₹1,299",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2YEq0BpUx15rCZnCqunEVXli-11EhJH4RZQ&s"
+        },
+        {
+          name: "Nike Backpack",
+          price: "₹2,999",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCQyTumeZkASD_n4JEteiHv-t0BDtnm5ntRA&s"
+        },
+        {
+          name: "Nike Air Max Shoes",
+          price: "₹7,999",
+          image: "https://assets.myntassets.com/w_360,q_50,,dpr_2,fl_progressive,f_webp/assets/images/25505296/2023/10/16/ca6afaac-a91d-488e-babb-9a6da3308d671697466765687NikeAirMaxExceeMenCasualShoes1.jpg"
+        },
+        {
+          name: "Nike Running Shoes",
+          price: "₹5,499",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxICHJOBmB4shli3OHnzIx_lRkayCr5YrgJw&s"
+        },
+        {
+          name: "Adidas Womens Track Pants",
+          price: "₹2,399",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREtl2wRW3cFNh86TT0EAyNxMFifFg7ZitKDA&s"
+        }
+      ],
+      kids: [
+        {
+          name: "Boys Shoes",
+          price: "₹1,569",
+          image: "https://i.pinimg.com/736x/42/7f/ed/427feda0ddb2ce07e19a2b68d26d797e.jpg"
+        },
+        {
+          name: "Girl Shoes",
+          price: "₹1,498",
+          image: "https://i.pinimg.com/736x/f3/df/b4/f3dfb4900fc4405db8e4aaa2764a7cc5.jpg"
+        },
+        {
+          name: "Girls Backpack",
+          price: "₹1,899",
+          image: "https://i.pinimg.com/1200x/d5/29/b1/d529b1e9fc15f6a1f4b17861ec6923be.jpg"
+        },
+        {
+          name: "Boys Backpack",
+          price: "₹1,899",
+          image: "https://i.pinimg.com/736x/eb/26/cf/eb26cf83675fa068929c42352ab75a58.jpg"
+        },
+        {
+          name: "Boys Bottom",
+          price: "₹999",
+          image: "https://i.pinimg.com/1200x/7c/63/e0/7c63e032ccb1e1c534a8d1a2c765857a.jpg"
+        },
+        {
+          name: "Girls Bottom",
+          price: "₹899",
+          image: "https://i.pinimg.com/1200x/5a/c9/c1/5ac9c1d934f0fc140bd609f175e42f24.jpg"
+        },
+        {
+          name: "Boys Top",
+          price: "₹998",
+          image: "https://i.pinimg.com/1200x/fe/15/20/fe15202f2ae24d1ff804c04810aa44b1.jpg"
+        },
+        {
+          name: "Girls Top",
+          price: "₹999",
+          image: "https://i.pinimg.com/736x/2e/5a/ef/2e5aef39048f15b6744a746ce9f7f9b8.jpg"
+        },
+        {
+          name: "Boys Ethinic Wear",
+          price: "₹1,699",
+          image: "https://i.pinimg.com/736x/fb/cc/a3/fbcca3c7dd64f0e99f29ea48277b32dc.jpg"
+        },
+        {
+          name: "Girls Ethinic Wear",
+          price: "₹1,899",
+          image: "https://i.pinimg.com/736x/de/72/3f/de723f20efbcd75a2387f0aa9503b49a.jpg"
+        },
+      ],
+      accessories: [
+        {
+          name: "Gucci Sunglasses",
+          price: "₹15,999",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM8zIMvIPzBw3ihDOOblL04Nr3cTclPElIEw&s"
+        },
+        {
+          name: "RayBan Wayfarer Sunglasses",
+          price: "₹8,499",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRCOadRk0ZV2rp4yovZgMjojBr0lRdLXB2WA&s"
+        },
+        {
+          name: "Gucci Leather Handbag",
+          price: "₹45,000",
+          image: "https://cdn.clothbase.com/uploads/af71de3f-c707-47b2-950f-f306dc138833/010105408601_52.jpg"
+        },
+        {
+          name: "Gucci Belt",
+          price: "₹12,999",
+          image: "https://cdn-images.farfetch-contents.com/16/63/69/45/16636945_56458496_1000.jpg"
+        }
+      ],
+      clothes: [
+        {
+          name: "Levi's Denim Jacket",
+          price: "₹4,199",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg3LbBoKs-fZnqMqk-zRc3tNoPx5v1SSfaZw&s"
+        },
+        {
+          name: "Nike Track Pants",
+          price: "₹2,299",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI2IJidbDBpJ3imWuomsqYr43jGcMegQ-qkA&s"
+        },
+        {
+          name: "H&M Hoodie",
+          price: "₹2,299",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNwAkZ7n6Ydap0uZQFwruTTNInG1UJb-81_Q&s"
+        },
+        {
+          name: "Zara Women Traditional Wear",
+          price: "₹3,499",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn57aG4uzj2-YUt2Gxc64Ga7vMzvnAGWi1Vw&s"
+        }
+      ]
+    };
+
+    function getCategoryFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const cat = (params.get("cat") || "").toLowerCase().trim();
+      return CATEGORY_PRODUCTS[cat] ? cat : "mens";
+    }
+
+    function renderCategory(cat) {
+      const title = document.getElementById("categoryTitle");
+      const heading = document.getElementById("categoryHeading");
+      const subtitle = document.getElementById("categorySubtitle");
+      const grid = document.getElementById("categoryGrid");
+
+      const pretty = cat.charAt(0).toUpperCase() + cat.slice(1);
+      if (title) title.textContent = pretty;
+      if (heading) heading.textContent = pretty + " Picks";
+      if (subtitle) subtitle.textContent = "Premium style, same easy shopping";
+
+      if (!grid) return;
+      grid.innerHTML = "";
+
+      const list = CATEGORY_PRODUCTS[cat] || [];
+      list.forEach((p) => {
+        const card = document.createElement("div");
+        card.className = "product";
+        card.innerHTML = `
+          <img src="${p.image}" alt="${p.name}" />
+          <h3></h3>
+          <p class="price"></p>
+          <div class="product-buttons">
+            <button class="details-btn" type="button">View details</button>
+            <button class="cart-btn" type="button" onclick="addToCart(this)">Add to Cart</button>
+          </div>
+        `;
+
+        card.querySelector("h3").textContent = p.name;
+        card.querySelector(".price").textContent = p.price;
+        grid.appendChild(card);
+      });
+    }
+
+    // --- Cart (persisted) ---
+    const CART_KEY = "shopx_cart_v1";
+    const cart = loadCart();
+    updateCartCount();
+
+    function addToCart(button) {
+      const card = button.closest(".product");
+      if (!card) return;
+      const item = card.querySelector("h3")?.textContent?.trim() || "Item";
+      const priceText = card.querySelector(".price")?.textContent?.replace(/[^\d]/g, "") || "0";
+      const price = Number(priceText) || 0;
+      const image = card.querySelector("img")?.src || "";
+      cart.push({ item, price, image });
+      saveCart(cart);
+      updateCartCount();
+    }
+
+    function updateCartCount() {
+      const el = document.getElementById("cartCount");
+      if (el) el.textContent = String(cart.length);
+    }
+
+    function goToCartPage() {
+      window.location.href = "cart.html";
+    }
+
+    function loadCart() {
+      try {
+        const raw = localStorage.getItem(CART_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveCart(items) {
+      try {
+        localStorage.setItem(CART_KEY, JSON.stringify(items));
+      } catch {
+        // ignore storage failures (private mode / quota)
+      }
+    }
+
+    // --- View details navigation ---
+    function wireDetailsButtons() {
+      document.querySelectorAll(".details-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const card = btn.closest(".product");
+          const name = card?.querySelector("h3")?.textContent?.trim();
+          if (name) window.location.href = `files.html?product=${encodeURIComponent(name)}`;
+        });
+      });
+    }
+
+    // --- Search within category ---
+    function wireSearch() {
+      const searchInput = document.getElementById("searchInput");
+      if (!searchInput) return;
+      searchInput.addEventListener("input", () => {
+        const filter = searchInput.value.toLowerCase().trim();
+        document.querySelectorAll(".product").forEach((product) => {
+          const title = product.querySelector("h3")?.textContent?.toLowerCase() || "";
+          const priceText = product.querySelector(".price")?.textContent?.toLowerCase() || "";
+          const visible = !filter || title.includes(filter) || priceText.includes(filter);
+          product.style.display = visible ? "block" : "none";
+        });
+      });
+    }
+
+    // --- Background themes (same approach as ecom.html) ---
+    // const BG_KEY = "shopx_bg_v1";
+    function setBg(theme) {
+      //   let style = "radial-gradient(circle at 20% 10%, #ff3f3f, #0d133d 45%, #050916 100%)";
+      //   let navbarStyle = "linear-gradient(90deg, #1f2a6b, #e20f1f 70%, #1f2a6b)";
+      //   let accent = "#ff2a2a";
+      //   let cardBg = "#ffffff";
+
+      //   if (theme === "blue") {
+      //     style = "radial-gradient(circle at 20% 10%, #4087ff, #10214c 45%, #05102d 100%)";
+      //     navbarStyle = "linear-gradient(90deg, #0a3d91, #0f5cda 70%, #0a3d91)";
+      //     accent = "#1e90ff";
+      //     cardBg = "#f0f6ff";
+      //   }
+      //   if (theme === "white") {
+      //     style = "radial-gradient(circle at 20% 10%, #ffffff, #e8e8ff 45%, #d9dcf5 100%)";
+      //     navbarStyle = "linear-gradient(90deg, #3f4a67, #6f7aa0 70%, #3f4a67)";
+      //     accent = "#0d47a1";
+      //     cardBg = "#ffffff";
+      //   }
+      //   if (theme === "gold-black") {
+      //     style = "radial-gradient(circle at 20% 10%, #f8d147, #3f2d01 45%, #09090a 100%)";
+      //     navbarStyle = "linear-gradient(90deg, #2f2100, #9f7e00 70%, #2f2100)";
+      //     accent = "#cc8400";
+      //     cardBg = "#fef6dc";
+      //   }
+
+      document.body.style.background = style;
+      document.querySelectorAll(".navbar").forEach((el) => { el.style.background = navbarStyle; });
+      document.querySelectorAll(".cart-icon").forEach((el) => { el.style.background = accent; });
+      document.querySelectorAll(".details-btn").forEach((el) => { el.style.background = "#111"; el.style.color = "#fff"; });
+      document.querySelectorAll(".cart-btn").forEach((el) => { el.style.background = accent; el.style.color = "#fff"; });
+      document.querySelectorAll(".product").forEach((el) => { el.style.background = cardBg; });
+      localStorage.setItem(BG_KEY, theme);
+    }
+
+    function loadBg() {
+      const saved = localStorage.getItem(BG_KEY) || "original";
+      setBg(saved);
+    }
+
+    // --- Boot ---
+    (function init() {
+      const cat = getCategoryFromUrl();
+      renderCategory(cat);
+      wireDetailsButtons();
+      wireSearch();
+      loadBg();
+    })();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShopX Orders</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      /* background: radial-gradient(circle at 20% 10%, #ff3f3f 0%, #0d133d 45%, #050916 100%); */
+      color: #fff;
+      padding: 12px;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #111;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px 14px;
+      border-radius: 10px;
+      margin-bottom: 14px;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .card {
+      background: rgba(212, 211, 211);
+      color: #111;
+      border-radius: 12px;
+      padding: 16px;
+      max-width: 920px;
+      margin: 0 auto;
+      /* box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25); */
+    }
+
+    h1 {
+      margin-bottom: 8px;
+    }
+
+    .order-list {
+      list-style: none;
+      margin-top: 8px;
+    }
+
+    .order-item {
+      background: #f4f4f4;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-left: 4px solid #ff2a2a;
+    }
+
+    .order-meta {
+      font-size: .92rem;
+      color: #333;
+      margin-bottom: 8px;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .order-items {
+      margin-top: 6px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .order-items li {
+      background: #fff;
+      padding: 6px 8px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .status-pill {
+      display: inline-block;
+      font-size: .78rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #ff9b1a;
+      color: #111;
+      margin-left: 6px;
+    }
+
+    .order-actions {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .order-action {
+      border: none;
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-weight: 700;
+      font-size: .82rem;
+      cursor: pointer;
+    }
+
+    .order-action.cancel {
+      background: #c03434;
+      color: #fff;
+    }
+
+    .order-action.received {
+      background: #2d7d38;
+      color: #fff;
+    }
+
+    .order-action.review {
+      background: #073c7a;
+      color: #fff;
+    }
+
+    .empty {
+      background: rgba(212, 211, 211);
+      color: #111;
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .logout {
+      background: #ff1f1f;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Forced theme: white background + blue buttons */
+    html,
+    body {
+      background: #ffffff !important;
+      /* color: #0d133d !important; */
+    }
+
+    body::before {
+      background-image: none !important;
+    }
+
+    .sling-back-btn {
+      display: inline-block;
+      /* background: linear-gradient(135deg, #ff2a2a 0%, #c10000 65%, #570000 100%); */
+      color: #fff;
+      border: 1px solid #ff6e6e;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      /* box-shadow: 0 8px 18px rgba(255, 0, 0, 0.35), 0 0 8px rgba(255, 255, 255, 0.15); */
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform .15s ease, box-shadow .15s ease, background .2s ease;
+    }
+
+    .sling-back-btn:hover {
+      transform: translateY(-2px);
+      /* box-shadow: 0 10px 24px rgba(255, 0, 0, 0.45), 0 0 10px rgba(255, 255, 255, 0.2);
+      background: linear-gradient(135deg, #ff4f4f 0%, #e60000 65%, #7e0000 100%); */
+    }
+
+    .sling-back-btn:active {
+      transform: translateY(1px);
+      /* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25); */
+    }
+    
+/* 
+    a,
+    a:visited {
+      color: #0b79d0 !important;
+    } */
+
+    /* .navbar,
+    .banner,
+    .card,
+    .product,
+    .container,
+    .left-panel,
+    .right-panel,
+    .detail-card,
+    .related-card {
+      background: rgba(255, 255, 255, 0.98) !important;
+      color: #0d133d !important;
+    } */
+
+    .navbar {
+      border-bottom: 2px solid rgba(30, 144, 255, 0.35) !important;
+    }
+
+    .navbar a {
+      color: #fff!important;
+    }
+
+    input,
+    textarea,
+    select {
+      background: #ffffff !important;
+      color: #0d133d !important;
+      border: 1px solid rgba(13, 19, 61, 0.18) !important;
+    }
+
+    button,
+    .cart-icon,
+    .cart-btn,
+    .details-btn,
+    .back-btn,
+    .checkout-btn,
+    .pay-btn,
+    .sling-back-btn,
+    .remove-btn,
+    .login-btn,
+    .logout,
+    .order-action {
+      background: #111 !important;
+      color: #ffffff !important;
+      border: none !important;
+    }
+
+    button:hover,
+    .cart-icon:hover,
+    .cart-btn:hover,
+    .details-btn:hover,
+    .back-btn:hover,
+    .checkout-btn:hover,
+    .pay-btn:hover,
+    .sling-back-btn:hover,
+    .remove-btn:hover,
+    .login-btn:hover,
+    .logout:hover,
+    .order-action:hover {
+      background: #0b79d0 !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar">
+    <div class="logo">SHOPX Orders</div>
+    <div class="nav-links">
+      <a href="ecom.html">Home</a>
+      <a href="cart.html">Cart</a>
+      <button id="logoutBtn" class="logout">Logout</button>
+    </div>
+  </div><br>
+
+  <a href="ecom.html" class="sling-back-btn">← Sling Back</a><br><br>
+
+  <div class="card">
+    <h1>Your Orders</h1>
+    <div id="userInfo" style="margin-bottom:10px;color:#444;">Loading...</div>
+    <div id="ordersWrapper"></div>
+  </div>
+
+  <script>
+    const CURRENT_USER_KEY = 'shopx_current_user_v1';
+    const ORDERS_KEY = 'shopx_orders_v1';
+    const currentUser = localStorage.getItem(CURRENT_USER_KEY);
+    const userInfo = document.getElementById('userInfo');
+    const ordersWrapper = document.getElementById('ordersWrapper');
+
+    function getAllOrders() {
+      const raw = localStorage.getItem(ORDERS_KEY);
+      try { return raw ? JSON.parse(raw) : []; } catch { return []; }
+    }
+
+    function saveAllOrders(list) {
+      localStorage.setItem(ORDERS_KEY, JSON.stringify(list));
+    }
+
+    function parsePrice(value) {
+      const raw = String(value ?? "");
+      const digits = raw.replace(/[^\d]/g, "");
+      const num = Number(digits);
+      return Number.isFinite(num) ? num : 0;
+    }
+
+    function renderOrders() {
+      if (!currentUser) {
+        userInfo.textContent = 'Please login first to view your orders.';
+        ordersWrapper.innerHTML = '<div class="empty">Not logged in. <a href="login.html" style="color:#0b4fdb;text-decoration:underline;">Go to login</a>.</div>';
+        return;
+      }
+      userInfo.textContent = `Signed in as: ${currentUser}`;
+      const allOrders = getAllOrders();
+      const userOrders = allOrders.filter((o) => o.email === currentUser);
+      if (!userOrders.length) {
+        ordersWrapper.innerHTML = '<div class="empty">No saved orders yet. Place your first order and return here to view it.</div>';
+        return;
+      }
+
+      const ul = document.createElement('ul');
+      ul.className = 'order-list';
+      userOrders.reverse().forEach((order) => {
+        const status = order.status || 'Placed';
+        const reviewBadge = order.review ? `<div style="margin-top:6px;color:#005f7a;font-weight:700;">Review: ${order.review}</div>` : '';
+        const actions = [];
+        if (status !== 'Cancelled') {
+          if (status !== 'Received') {
+            actions.push(`<button class="order-action received" data-action="received" data-order-id="${order.id}">Mark Received</button>`);
+            actions.push(`<button class="order-action cancel" data-action="cancel" data-order-id="${order.id}">Cancel Order</button>`);
+          }
+        }
+        actions.push(`<button class="order-action review" data-action="review" data-order-id="${order.id}">Write Review</button>`);
+
+        const li = document.createElement('li');
+        li.className = 'order-item';
+        li.innerHTML = `
+        <div class="order-meta"><strong>Order #${order.id}</strong><span>${order.date}</span><span>Total: ₹${parsePrice(order.total).toLocaleString('en-IN')}</span><span>Method: ${order.method}</span><span class="status-pill">${status}</span></div>
+        <div><strong>Shipping:</strong> ${order.address}</div>
+        <div style="margin-top:8px;"><strong>Items:</strong></div>
+        <ul class="order-items">
+          ${order.items.map((it) => `<li><span>${it.item}</span><span>₹${parsePrice(it.price).toLocaleString('en-IN')}</span></li>`).join('')}
+        </ul>
+        ${order.promo ? `<div style="margin-top:6px;color:#0b4fdb;font-weight:700;">Promo: ${order.promo} (saved ₹${Number(order.discount || 0).toLocaleString('en-IN')})</div>` : ''}
+        ${reviewBadge}
+        <div class="order-actions">${actions.join('')}</div>
+      `;
+        ul.appendChild(li);
+      });
+      ordersWrapper.innerHTML = '';
+      ordersWrapper.appendChild(ul);
+
+      ordersWrapper.querySelectorAll('.order-action').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const action = btn.getAttribute('data-action');
+          const orderId = Number(btn.getAttribute('data-order-id'));
+          handleOrderAction(orderId, action);
+        });
+      });
+    }
+
+    function handleOrderAction(orderId, action) {
+      const allOrders = getAllOrders();
+      const idx = allOrders.findIndex((o) => o.id === orderId && o.email === currentUser);
+      if (idx < 0) return;
+      if (action === 'cancel') {
+        allOrders[idx].status = 'Cancelled';
+      } else if (action === 'received') {
+        allOrders[idx].status = 'Received';
+      } else if (action === 'review') {
+        const reviewText = prompt('Write your review for this order (optional):');
+        if (reviewText !== null) {
+          allOrders[idx].review = reviewText.trim() || 'No text entered';
+          if (allOrders[idx].status !== 'Cancelled') {
+            allOrders[idx].status = 'Completed';
+          }
+        }
+      }
+      saveAllOrders(allOrders);
+      renderOrders();
+    }
+
+    renderOrders();
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem(CURRENT_USER_KEY);
+      window.location.href = 'login.html';
+    });
+  </script>
+  <!-- <script>
+    const BG_KEY = 'shopx_bg_v1';
+    function setBg(theme) {
+      let bodyBg = 'radial-gradient(circle at 20% 10%, #ff3f3f, #0d133d 45%, #050916 100%)';
+      let navBg = 'linear-gradient(90deg, #1f2a6b, #e20f1f 70%, #1f2a6b)';
+      let btnBg = '#ff2a2a';
+      let cardBg = '#ffffff';
+      if (theme === 'blue') {
+        bodyBg = 'radial-gradient(circle at 20% 10%, #4087ff, #10214c 45%, #05102d 100%)';
+        navBg = 'linear-gradient(90deg, #0a3d91, #0f5cda 70%, #0a3d91)';
+        btnBg = '#1e90ff';
+        cardBg = '#f0f6ff';
+      }
+      if (theme === 'white') {
+        bodyBg = 'radial-gradient(circle at 20% 10%, #ffffff, #e8e8ff 45%, #d9dcf5 100%)';
+        navBg = 'linear-gradient(90deg, #3f4a67, #6f7aa0 70%, #3f4a67)';
+        btnBg = '#0d47a1';
+        cardBg = '#ffffff';
+      }
+      if (theme === 'gold-black') {
+        bodyBg = 'radial-gradient(circle at 20% 10%, #f8d147, #3f2d01 45%, #09090a 100%)';
+        navBg = 'linear-gradient(90deg, #2f2100, #9f7e00 70%, #2f2100)';
+        btnBg = '#cc8400';
+        cardBg = '#fef6dc';
+      }
+      document.body.style.background = bodyBg;
+      document.querySelectorAll('.navbar').forEach((el) => el.style.background = navBg);
+      document.querySelectorAll('.cart-icon, .back-btn, .checkout-btn, .pay-btn, .sling-back-btn').forEach((el) => el.style.background = btnBg);
+      document.querySelectorAll('.product, .card, .container, .left-panel, .right-panel, .detail-card, .related-card').forEach((el) => el.style.background = cardBg);
+      localStorage.setItem(BG_KEY, theme);
+    }
+    function loadBg() {
+      const saved = localStorage.getItem(BG_KEY) || 'original';
+      setBg(saved);
+    }
+    loadBg();
+  </script> -->
+</body>
+
+</html>

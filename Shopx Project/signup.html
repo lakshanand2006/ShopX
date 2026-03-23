@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopX Sign Up</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* Background */
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(212, 211, 211);
+      color: #000;
+    }
+
+    /* Signup Box */
+    .container {
+      width: 360px;
+      padding: 30px;
+      border: 1px solid #e5e5e5;
+      border-radius: 20px;
+      background: #fff;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 1.35);
+    }
+
+    /* Heading */
+    .brand {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .sub {
+      font-size: 13px;
+      margin-bottom: 20px;
+      color: #666;
+    }
+
+    /* Inputs */
+    .form-group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .form-group label {
+      font-size: 13px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: #000;
+    }
+
+    /* Button */
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background: #000;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background: #333;
+    }
+
+    /* Message */
+    .message {
+      margin-top: 10px;
+      font-size: 13px;
+      display: none;
+    }
+
+    .message.success {
+      color: green;
+    }
+
+    .message.error {
+      color: red;
+    }
+
+    /* Bottom link */
+    .note {
+      margin-top: 15px;
+      font-size: 13px;
+    }
+
+    .note a {
+      color: #000;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .note a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="brand">Create Account</div>
+    <div class="sub">Join ShopX and start shopping</div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input id="email" type="email" placeholder="Enter your email">
+    </div>
+
+    <div class="form-group">
+      <label>Password</label>
+      <input id="password" type="password" placeholder="Enter password">
+    </div>
+
+    <div class="form-group">
+      <label>Confirm Password</label>
+      <input id="confirmPassword" type="password" placeholder="Confirm password">
+    </div>
+
+    <button id="createAccount" class="btn">Create Account</button>
+
+    <div id="message" class="message"></div>
+
+    <div class="note">
+      Already have an account? <a href="login.html">Login</a>
+    </div>
+
+  </div>
+
+  <script>
+
+    const ACCOUNT_KEY = 'shopx_account_v1';
+    const CURRENT_USER_KEY = 'shopx_current_user_v1';
+
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const confirmInput = document.getElementById('confirmPassword');
+    const message = document.getElementById('message');
+
+    function showMessage(txt, success = false) {
+      message.style.display = 'block';
+      message.className = 'message ' + (success ? 'success' : 'error');
+      message.textContent = txt;
+    }
+
+    document.getElementById('createAccount').addEventListener('click', () => {
+
+      const email = emailInput.value.trim().toLowerCase();
+      const password = passwordInput.value.trim();
+      const confirm = confirmInput.value.trim();
+
+      if (!email || !password || !confirm) {
+        showMessage('Please fill all fields');
+        return;
+      }
+
+      if (!email.includes('@')) {
+        showMessage('Enter valid email');
+        return;
+      }
+
+      if (password.length < 5) {
+        showMessage('Password must be at least 5 characters');
+        return;
+      }
+
+      if (password !== confirm) {
+        showMessage('Passwords do not match');
+        return;
+      }
+
+      const account = { email, password };
+
+      localStorage.setItem(ACCOUNT_KEY, JSON.stringify(account));
+      localStorage.setItem(CURRENT_USER_KEY, email);
+
+      showMessage('Account created successfully!', true);
+
+      setTimeout(() => {
+        window.location.href = 'ecom.html';
+      }, 800);
+
+    });
+
+  </script>
+
+</body>
+
+</html>

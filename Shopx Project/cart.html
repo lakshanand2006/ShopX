@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart - ShopX Fashion</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 20% 20%, #ff3f3f 0%, #1a1c4f 45%, #0a0d2f 100%);
+      color: #fff;
+    }
+
+    .navbar {
+      background: #111;
+      color: #fff;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 2px solid #ff2c2c;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .back-btn {
+      background: #ff2f2f;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .back-btn:hover {
+      background: #d70000;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 22px auto;
+      padding: 0 14px;
+    }
+
+    .card {
+      background: rgba(212, 211, 211);
+      border-radius: 14px;
+      /* box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25); */
+      padding: 20px;
+      color: #111;
+    }
+
+    h1 {
+      margin-bottom: 12px;
+      font-size: 2rem;
+      color: #111;
+      /* text-shadow: 0 0 10px rgba(255, 0, 0, 0.2); */
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 12px;
+      box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .price {
+      font-weight: 800;
+      color: #111;
+      white-space: nowrap;
+    }
+
+    .remove-btn {
+      background: #d50000;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .remove-btn:hover {
+      background: #ab0000;
+    }
+
+    .summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 2px dashed #e60000;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .checkout-btn {
+      margin-top: 14px;
+      width: 100%;
+      background: #0c1a7b;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .checkout-btn:hover {
+      background: #0b1468;
+    }
+
+    .empty {
+      padding: 12px;
+      background: #fff;
+      border: 1px solid #ffd280;
+      border-radius: 10px;
+      color: #000000;
+    }
+
+    /* Forced theme: white background + blue buttons */
+    html,
+    body {
+      background: #ffffff !important;
+      color: #0d133d !important;
+    }
+
+    body::before {
+      background-image: none !important;
+    }
+
+    /* a,
+    a:visited {
+      color: #0b79d0 !important;
+    }
+
+    .navbar,
+    .banner,
+    .card,
+    .product,
+    .container,
+    .left-panel,
+    .right-panel,
+    .detail-card,
+    .related-card {
+      background: rgba(255, 255, 255, 0.98) !important;
+      color: #0d133d !important;
+    } */
+
+    .navbar {
+      border-bottom: 2px solid rgba(30, 144, 255, 0.35) !important;
+    }
+
+    .navbar a {
+      color: #fff !important;
+    }
+
+    input,
+    textarea,
+    select {
+      background: #ffffff !important;
+      color: #0d133d !important;
+      border: 1px solid rgba(13, 19, 61, 0.18) !important;
+    }
+
+    button,
+    .cart-icon,
+    .cart-btn,
+    .details-btn,
+    .back-btn,
+    .checkout-btn,
+    .pay-btn,
+    .sling-back-btn,
+    .remove-btn,
+    .login-btn,
+    .logout,
+    .order-action {
+      background: #111 !important;
+      color: #ffffff !important;
+      border: none !important;
+    }
+
+    button:hover,
+    .cart-icon:hover,
+    .cart-btn:hover,
+    .details-btn:hover,
+    .back-btn:hover,
+    .checkout-btn:hover,
+    .pay-btn:hover,
+    .sling-back-btn:hover,
+    .remove-btn:hover,
+    .login-btn:hover,
+    .logout:hover,
+    .order-action:hover {
+      background: #0b79d0 !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar">
+    <div class="logo">SHOPX CART</div>
+    <button class="back-btn" type="button" onclick="goBack()">← Sling Back</button>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <h1>Cart of Web Gear</h1>
+      <div id="emptyState" class="empty" style="display:none;">Your cart is empty.</div>
+      <ul id="cartItems"></ul>
+      <div class="summary">
+        <div id="cartCountLabel">Items: 0</div>
+        <div id="cartTotal">Total: ₹0</div>
+      </div>
+      <button class="checkout-btn" type="button" id="checkoutBtn">Proceed to Checkout</button>
+    </div>
+  </div>
+
+  <script>
+    const CART_KEY = "shopx_cart_v1";
+
+    function loadCart() {
+      try {
+        const raw = localStorage.getItem(CART_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveCart(items) {
+      try {
+        localStorage.setItem(CART_KEY, JSON.stringify(items));
+      } catch {
+        // ignore
+      }
+    }
+
+    function formatRupees(n) {
+      const value = parsePrice(n);
+      return "₹" + value.toLocaleString("en-IN");
+    }
+
+    function parsePrice(value) {
+      // Handles values like "₹1,299" or plain numbers
+      const raw = String(value ?? "");
+      const digits = raw.replace(/[^\d]/g, "");
+      const num = Number(digits);
+      return Number.isFinite(num) ? num : 0;
+    }
+
+    function renderCart() {
+      const cart = loadCart();
+      const list = document.getElementById("cartItems");
+      const empty = document.getElementById("emptyState");
+      const countLabel = document.getElementById("cartCountLabel");
+
+      list.innerHTML = "";
+
+      if (cart.length === 0) {
+        empty.style.display = "block";
+      } else {
+        empty.style.display = "none";
+      }
+
+      let total = 0;
+      cart.forEach((product, idx) => {
+        const itemName = product.item || product.name || "Item";
+        const priceNumber = parsePrice(product.price || 0);
+        total += priceNumber;
+
+        const li = document.createElement("li");
+        li.style.display = "flex";
+        li.style.alignItems = "center";
+        li.style.gap = "10px";
+
+        const thumb = document.createElement("img");
+        thumb.src = product.image || "https://via.placeholder.com/70x70?text=No+Image";
+        thumb.alt = itemName;
+        thumb.style.width = "70px";
+        thumb.style.height = "70px";
+        thumb.style.objectFit = "cover";
+        thumb.style.borderRadius = "8px";
+
+        const name = document.createElement("div");
+        name.textContent = itemName;
+        name.style.fontWeight = "700";
+
+        const right = document.createElement("div");
+        right.className = "right";
+
+        const price = document.createElement("div");
+        price.className = "price";
+        price.textContent = formatRupees(priceNumber);
+
+        const remove = document.createElement("button");
+        remove.className = "remove-btn";
+        remove.type = "button";
+        remove.textContent = "Remove";
+        remove.onclick = () => {
+          const updated = loadCart();
+          updated.splice(idx, 1);
+          saveCart(updated);
+          renderCart();
+        };
+
+        right.appendChild(price);
+        right.appendChild(remove);
+
+        li.appendChild(thumb);
+        li.appendChild(name);
+        li.appendChild(right);
+        list.appendChild(li);
+      });
+
+      countLabel.textContent = "Items: " + cart.length;
+      document.getElementById("cartTotal").textContent = "Total: " + formatRupees(total);
+    }
+
+    function goBack() {
+      window.location.href = "ecom.html";
+    }
+
+    function proceedToPay() {
+      const cart = loadCart();
+      if (!cart || cart.length === 0) {
+        alert("Your cart is empty. Add items before checkout.");
+        return;
+      }
+      window.location.href = "pay.html";
+    }
+
+    document.getElementById("checkoutBtn")?.addEventListener("click", proceedToPay);
+
+    const BG_KEY = 'shopx_bg_v1';
+    function setBg(theme) {
+  //     let bodyBg = 'radial-gradient(circle at 20% 20%, #ff3f3f 0%, #1a1c4f 45%, #0a0d2f 100%)';
+  //     let navBg = 'linear-gradient(90deg, #160f4b, #d60d1b, #160f4b)';
+  //     let backBtn = '#ff2f2f';
+  //     let cardBg = 'rgba(255,255,255,0.92)';
+  //     if (theme === 'blue') {
+  //       bodyBg = 'radial-gradient(circle at 20% 20%, #4087ff 0%, #10214c 45%, #05102d 100%)';
+  //       navBg = 'linear-gradient(90deg, #0a3d91, #0f5cda, #0a3d91)';
+  //       backBtn = '#1e90ff';
+  //       cardBg = '#eef4ff';
+  //     }
+  //     if (theme === 'white') {
+  //       bodyBg = 'radial-gradient(circle at 20% 20%, #ffffff 0%, #e8e8ff 45%, #d9dcf5 100%)';
+  //       navBg = 'linear-gradient(90deg, #3f4a67, #6f7aa0, #3f4a67)';
+  //       backBtn = '#0d47a1';
+  //       cardBg = '#ffffff';
+  //     }
+  //     if (theme === 'gold-black') {
+  //       bodyBg = 'radial-gradient(circle at 20% 20%, #f8d147 0%, #3f2d01 45%, #09090a 100%)';
+  //       navBg = 'linear-gradient(90deg, #2f2100, #9f7e00, #2f2100)';
+  //       backBtn = '#cc8400';
+  //       cardBg = '#fef6dc';
+  //     }
+  //     document.body.style.background = bodyBg;
+  //     document.querySelectorAll('.navbar').forEach((el) => { el.style.background = navBg; });
+  //     document.querySelectorAll('.back-btn').forEach((el) => { el.style.background = backBtn; });
+  //     document.querySelectorAll('.card').forEach((el) => { el.style.background = cardBg; });
+    }
+    function loadBg() {
+      const saved = localStorage.getItem(BG_KEY) || 'original';
+      setBg(saved);
+    }
+    loadBg();
+
+    renderCart();
+  // </script>
+</body>
+
+</html>

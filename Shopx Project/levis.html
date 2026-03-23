@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Levi's Products | SPIDER SHOP</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #ffffff;
+      color: #111;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(140deg, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px 24px), linear-gradient(40deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 24px);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .navbar {
+      background: #111;
+      color: #ffffff;
+      padding: 12px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .search input {
+      width: 250px;
+      border: 0;
+      border-radius: 8px;
+      padding: 8px 10px;
+      background: #fff;
+      color: #111;
+    }
+
+    .theme-select {
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-weight: 800;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.25);
+      color: #fff;
+    }
+
+    .cart-icon {
+      background: #ff2a2a;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      /* box-shadow: 0 5px 14px rgba(255, 0, 0, 0.3); */
+    }
+
+    .cart-icon:hover {
+      background: #d50707;
+    }
+
+    .banner {
+      margin: 20px auto;
+      max-width: 1100px;
+      background:rgb(212, 211, 211);
+      border-radius: 14px;
+      padding: 25px;
+      text-align: center;
+      color: #111;
+    }
+
+    .banner h1 {
+      margin-bottom: 8px;
+      font-size: 2rem;
+      color: #111;
+      text-shadow: 0 0 18px rgba(255, 255, 255, 0.35);
+    }
+
+    .banner p {
+      color: #111;
+      font-weight: 600;
+    }
+
+    .products {
+      padding: 14px;
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+
+    .products h2 {
+      margin-bottom: 10px;
+      color: #111;
+      font-size: 1.8rem;
+      /* text-shadow: 0 0 10px rgba(0, 0, 0, 0.4); */
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin: 10px 0 14px;
+      flex-wrap: wrap;
+    }
+
+    .controls label {
+      font-weight: 900;
+      color: #111;
+      /* text-shadow: 0 0 8px rgba(0, 0, 0, 0.35); */
+    }
+
+    .sort-select {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-weight: 900;
+      background: rgba(255, 255, 255, 0.95);
+      color: #111;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .product {
+      background: rgb(212, 211, 211);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      transition: transform .2s ease;
+    }
+    .navbar{
+  background:#111;
+  border-bottom:1px solid #e5e5e5;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 20px;
+}
+
+    .product:hover {
+      transform: translateY(-5px);
+    }
+
+    .product img {
+      height: 180px;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .product h3 {
+      margin: 10px 12px 4px;
+      font-size: 1.05rem;
+      color: #111;
+    }
+
+    .price {
+      margin: 8px 12px;
+      color: #111;
+      font-weight: 800;
+    }
+
+    .product-buttons {
+      display: flex;
+      gap: 8px;
+      margin: 10px 12px 12px;
+    }
+
+    .details-btn,
+    .cart-btn {
+      border: none;
+      border-radius: 8px;
+      padding: 9px 7px;
+      font-weight: 700;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .details-btn {
+      background: #111;
+      color: #fff;
+    }
+
+    .details-btn:hover {
+      background: #383838;
+    }
+
+    .cart-btn {
+      background: #ff1f1f;
+      color: #fff;
+    }
+
+    .cart-btn:hover {
+      background: #d10f10;
+    }
+
+    .sling-back-btn {
+      display: inline-block;
+      /* background: linear-gradient(135deg, #ff2a2a 0%, #c10000 65%, #570000 100%); */
+      color: #fff;
+      border: 1px solid #ff6e6e;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      /* box-shadow: 0 8px 18px rgba(255, 0, 0, 0.35), 0 0 8px rgba(255, 255, 255, 0.15); */
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform .15s ease, box-shadow .15s ease, background .2s ease;
+    }
+
+    .sling-back-btn:hover {
+      transform: translateY(-2px);
+      /* box-shadow: 0 10px 24px rgba(255, 0, 0, 0.45), 0 0 10px rgba(255, 255, 255, 0.2);
+      background: linear-gradient(135deg, #ff4f4f 0%, #e60000 65%, #7e0000 100%); */
+    }
+
+    .sling-back-btn:active {
+      transform: translateY(1px);
+      /* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25); */
+    }
+
+    footer {
+
+      background: #111;
+      text-align: center;
+      padding: 50px;
+      border-top: 1px solid #eee;
+      margin-top: 20px;
+      color: white;
+    }
+
+
+    #home,
+    #Login {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 8px;
+      font-weight: 700;
+    }
+
+    .spider-text {
+      font-size: 20px;
+      margin-right: 14px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    /* Forced theme: white background + blue buttons */
+    html,
+    body {
+      background: #ffffff !important;
+      color: #0d133d !important;
+    }
+
+    body::before {
+      background-image: none !important;
+    }
+
+    /* a,
+    a:visited {
+      color: #0b79d0 !important;
+    } */
+
+    
+
+    .navbar {
+      border-bottom: 2px solid rgba(30, 144, 255, 0.35) !important;
+    }
+
+    .navbar a {
+      color: #fff !important;
+    }
+
+    input,
+    textarea,
+    select {
+      background: #ffffff !important;
+      color: #0d133d !important;
+      border: 1px solid rgba(13, 19, 61, 0.18) !important;
+    }
+
+    button,
+    .cart-icon,
+    .cart-btn,
+    .details-btn,
+    .back-btn,
+    .checkout-btn,
+    .pay-btn,
+    .sling-back-btn,
+    .remove-btn,
+    .login-btn,
+    .logout,
+    .order-action {
+      background:black !important;
+      color: #ffffff !important;
+      border: none !important;
+    }
+
+    button:hover,
+    .cart-icon:hover,
+    .cart-btn:hover,
+    .details-btn:hover,
+    .back-btn:hover,
+    .checkout-btn:hover,
+    .pay-btn:hover,
+    .sling-back-btn:hover,
+    .remove-btn:hover,
+    .login-btn:hover,
+    .logout:hover,
+    .order-action:hover {
+      background: #0b79d0 !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+
+  <div class="navbar">
+    <div class="logo">SHOPX</div>
+    <div class="search">
+      <input id="searchInput" type="text" placeholder="Search web-slinging style" />
+    </div>
+    <div>
+      <a id="home" href="ecom.html">Home</a><a id="Login" href="login.html">Login</a>
+    </div>
+    <button class="cart-icon" type="button" onclick="goToCartPage()">
+      🛒 Cart (<span id="cartCount">0</span>) <span style="font-weight:900; margin-left:6px; opacity:.95">| <span
+          id="cartSubtotal">₹0</span></span>
+    </button>
+  </div>
+
+  <!-- Banner -->
+
+  <div class="banner">
+    <h1>Levi's Denim Collection</h1>
+    <p>Premium Levi's Jeans & Fashion</p>
+  </div>
+
+  <a href="ecom.html" class="sling-back-btn">← Sling Back</a>
+
+  <!-- Products -->
+
+  <section class="products">
+
+    <h2>Levi's Trending Products</h2>
+
+    <div class="controls">
+      <label for="sortSelect">Sort</label>
+      <select id="sortSelect" class="sort-select">
+        <option value="trending" selected>Trending</option>
+        <option value="price_asc">Price: Low to High</option>
+        <option value="price_desc">Price: High to Low</option>
+      </select>
+    </div>
+
+    <div class="product-grid">
+
+      <div class="product"><img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7TwOSQgAJ-3BrhmIiO8PDFagpu6zRU8P6w&s"
+          alt="Levi's 501 Original Jeans">
+        <h3>Levi's 501 Original Jeans</h3>
+        <p class="price">₹3,299</p>
+        <div class="product-buttons"><button id="cart" class="cart-btn" type="button" onclick="addToCart(this)">Add to
+            Cart</button></div>
+      </div>
+      <div class="product"><img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg3LbBoKs-fZnqMqk-zRc3tNoPx5v1SSfaZw&s"
+          alt="Levi's Denim Jacket">
+        <h3>Levi's Denim Jacket</h3>
+        <p class="price">₹4,199</p>
+        <div class="product-buttons"><button id="cart" class="cart-btn" type="button" onclick="addToCart(this)">Add to
+            Cart</button></div>
+      </div>
+      <div class="product"><img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNN3YSVJjachcRMT7F_SVOOLZTJFTD_vIwNA&s"
+          alt="Levi's Casual Shirt">
+        <h3>Levi's Casual Shirt</h3>
+        <p class="price">₹2,199</p>
+        <div class="product-buttons"><button id="cart" class="cart-btn" type="button" onclick="addToCart(this)">Add to
+            Cart</button></div>
+      </div>
+      <div class="product"><img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNOFgbsc1Cp8ZiPUxxgiWilP1P6xq4dWNfFg&s"
+          alt="Levi's Slim Fit Jeans">
+        <h3>Levi's Slim Fit Jeans</h3>
+        <p class="price">₹2,799</p>
+        <div class="product-buttons"><button id="cart" class="cart-btn" type="button" onclick="addToCart(this)">Add to
+            Cart</button></div>
+      </div>
+
+    </div>
+
+  </section>
+  <script>
+    // Cart (persisted)
+    const CART_KEY = "shopx_cart_v1";
+    const cart = loadCart();
+
+    updateCartCount();
+
+    function formatINR(amount) {
+      const n = Math.round(Number(amount) || 0);
+      return "₹" + n.toLocaleString("en-IN");
+    }
+
+    function computeCartSubtotal() {
+      return cart.reduce((sum, item) => sum + (Number(item?.price) || 0), 0);
+    }
+
+    function addToCart(button) {
+      const card = button.closest('.product');
+      if (!card) return;
+      const item = card.querySelector('h3')?.textContent?.trim() || 'Item';
+      const priceText = card.querySelector('.price')?.textContent?.replace(/[^\d]/g, '') || '0';
+      const price = Number(priceText) || 0;
+      const image = card.querySelector('img')?.src || '';
+      cart.push({ item, price, image });
+      saveCart(cart);
+      updateCartCount();
+    }
+
+    function updateCartCount() {
+      const el = document.getElementById("cartCount");
+      if (el) el.textContent = String(cart.length);
+      const subtotalEl = document.getElementById("cartSubtotal");
+      if (subtotalEl) subtotalEl.textContent = formatINR(computeCartSubtotal());
+    }
+
+    function goToCartPage() {
+      window.location.href = "cart.html";
+    }
+
+    function loadCart() {
+      try {
+        const raw = localStorage.getItem(CART_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveCart(items) {
+      try {
+        localStorage.setItem(CART_KEY, JSON.stringify(items));
+      } catch {
+        // ignore storage failures (private mode / quota)
+      }
+    }
+    // View details buttons navigate to files.html with selected product
+    document.querySelectorAll('.details-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('.product');
+        const name = card?.querySelector('h3')?.textContent?.trim();
+        if (name) {
+          window.location.href = `files.html?product=${encodeURIComponent(name)}`;
+        }
+      });
+    });
+    // view details button script
+    document.querySelectorAll('.product').forEach((card) => { var title = card.querySelector('h3')?.textContent?.trim(); if (!title) return; var actions = card.querySelector('.product-buttons, .product-button'); if (!actions) return; if (actions.querySelector('.details-btn')) return; var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'details-btn'; btn.textContent = 'View details'; btn.onclick = () => { window.location.href = 'files.html?product=' + encodeURIComponent(title); }; actions.insertBefore(btn, actions.firstChild); });
+
+    // Search + sort (client-side)
+    const productGrid = document.querySelector('.product-grid');
+    const searchInput = document.getElementById('searchInput');
+    const sortSelect = document.getElementById('sortSelect');
+
+    if (productGrid && searchInput && sortSelect) {
+      const productCards = Array.from(productGrid.querySelectorAll('.product'));
+      // Save initial order so "Trending" can restore it after sorting.
+      productCards.forEach((card, idx) => (card.dataset.initialOrder = String(idx)));
+
+      function getCardPrice(card) {
+        const priceText = card.querySelector('.price')?.textContent || '';
+        const priceDigits = priceText.replace(/[^\d]/g, '');
+        return Number(priceDigits) || 0;
+      }
+
+      function applyFilter() {
+        const q = (searchInput.value || '').trim().toLowerCase();
+        productCards.forEach((card) => {
+          const title = card.querySelector('h3')?.textContent?.trim().toLowerCase() || '';
+          card.style.display = title.includes(q) ? '' : 'none';
+        });
+      }
+
+      function applySort() {
+        const sortValue = sortSelect.value;
+        const sorted = [...productCards].sort((a, b) => {
+          if (sortValue === 'price_asc') return getCardPrice(a) - getCardPrice(b);
+          if (sortValue === 'price_desc') return getCardPrice(b) - getCardPrice(a);
+          // trending
+          return Number(a.dataset.initialOrder) - Number(b.dataset.initialOrder);
+        });
+
+        // Re-render in sorted order.
+        sorted.forEach((card) => productGrid.appendChild(card));
+        applyFilter();
+      }
+
+      searchInput.addEventListener('input', applyFilter);
+      sortSelect.addEventListener('change', applySort);
+
+      // Initial state.
+      applyFilter();
+    }
+  </script>
+  <footer>
+    <p>© 2026 SPIDER SHOP Levi's Store</p>
+  </footer>
+
+
+</body>
+
+</html>

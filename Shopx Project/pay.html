@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment - ShopX Fashion</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; }
+    body { min-height: 100vh; background: radial-gradient(circle at 15% 15%, #fa8f8f 0%, #420e63 55%, #090919 100%); color: #fff; }
+    .navbar { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0,0,0,0.35); border-bottom: 2px solid #ff4f4f; position: sticky; top: 0; z-index: 100; }
+    .logo { font-size: 22px; font-weight: 800; letter-spacing: 1px; }
+    .back-btn { background: #ff3b3b; border: none; color: #fff; border-radius: 8px; padding: 8px 12px; cursor: pointer; font-weight: 700; }
+    .container { max-width: 900px; margin: 24px auto; padding: 0 14px; }
+    .card { background: rgba(255,255,255,0.94); border-radius: 14px; color: #111; padding: 18px; box-shadow: 0 8px 25px rgba(0,0,0,0.25); }
+    h1 { margin-bottom: 10px; color: #1b1555; }
+    .line { margin: 10px 0; border-bottom: 1px solid #ddd; }
+    .cart-list { margin: 10px 0 12px; list-style: none; }
+    .cart-list li { background: #f4f4f4; margin-bottom: 8px; border-radius: 8px; padding: 10px; display: flex; justify-content: space-between; align-items: center; }
+    .payment-row { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 12px; }
+    label { font-weight: 700; font-size: .95rem; }
+    input, select, textarea { font-size: 0.95rem; border-radius: 8px; border: 1px solid #bbb; padding: 10px; width: 100%; }
+    .summary { display: flex; justify-content: space-between; margin-top: 12px; font-weight: 700; color: #0d1b50; }
+    .pay-btn { margin-top: 14px; background: #0d1592; border: none; color: #fff; padding: 12px; border-radius: 10px; width: 100%; font-weight: 800; cursor: pointer; }
+    .pay-btn:hover { background: #0b1274; }
+    .success { margin-top: 14px; padding: 10px; background: #e8f7e8; color: #1b6b17; border: 1px solid #7ac67a; border-radius: 8px; display: none; }
+    /* Forced theme: white background + blue buttons */
+    html, body { background: #ffffff !important; color: #0d133d !important; }
+    body::before { background-image: none !important; }
+    a, a:visited { color: #0b79d0 !important; }
+    .navbar, .banner, .card, .product, .container, .left-panel, .right-panel, .detail-card, .related-card {
+      background: rgba(255,255,255,0.98) !important;
+      color: #0d133d !important;
+    }
+    .navbar { border-bottom: 2px solid rgba(30,144,255,0.35) !important; }
+    .navbar a { color: #0d133d !important; }
+    input, textarea, select { background: #ffffff !important; color: #0d133d !important; border: 1px solid rgba(13,19,61,0.18) !important; }
+    button, .cart-icon, .cart-btn, .details-btn, .back-btn, .checkout-btn, .pay-btn, .sling-back-btn, .remove-btn, .login-btn, .logout, .order-action {
+      background: #1e90ff !important;
+      color: #ffffff !important;
+      border: none !important;
+    }
+    button:hover, .cart-icon:hover, .cart-btn:hover, .details-btn:hover, .back-btn:hover, .checkout-btn:hover, .pay-btn:hover, .sling-back-btn:hover, .remove-btn:hover, .login-btn:hover, .logout:hover, .order-action:hover {
+      background: #0b79d0 !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="logo">SHOPX Payment</div>
+    <button class="back-btn" type="button" onclick="window.location.href='cart.html'">Back to Cart</button>
+  </div>
+  <div class="container">
+    <div class="card">
+      <h1>Secure Payment</h1>
+      <p>Complete your order by providing your shipping details and selecting a payment method.</p>
+      <div class="line"></div>
+      <h3>Order Summary</h3>
+      <ul id="itemList" class="cart-list"></ul>
+      <div class="summary">
+        <span>Total Items:</span>
+        <span id="itemCount">0</span>
+      </div>
+      <div class="summary">
+        <span>Order Total:</span>
+        <span id="orderTotal">₹0</span>
+      </div>
+      <div class="payment-row">
+        <div>
+          <label for="address">Shipping Address</label>
+          <textarea id="address" rows="3" placeholder="Enter your address"></textarea>
+        </div>
+        <div>
+          <label for="paymentMethod">Payment Method</label>
+          <select id="paymentMethod">
+            <option>UPI</option>
+            <option>Debit/Credit Card</option>
+            <option>Net Banking</option>
+            <option>Cash on Delivery</option>
+          </select>
+        </div>
+        <div id="paymentInfo" style="background:#fef8d6;border:1px solid #f5cf5c;border-radius:8px;padding:10px;color:#2f2f2f;margin-top:6px;">Select a payment method to see instructions.</div>
+        <div>
+          <label for="promo">Apply Offer Code</label>
+          <input id="promo" type="text" placeholder="Input code (e.g., SUPER10)" />
+        </div>
+      </div>
+      <button id="confirmPayment" type="button" class="pay-btn">Confirm Payment</button>
+      <div id="success" class="success"></div>
+    </div>
+  </div>
+  <script>
+    const CART_KEY = "shopx_cart_v1";
+    const ORDERS_KEY = "shopx_orders_v1";
+    const CURRENT_USER_KEY = "shopx_current_user_v1";
+    const itemList = document.getElementById("itemList");
+    const itemCount = document.getElementById("itemCount");
+    const orderTotal = document.getElementById("orderTotal");
+    const success = document.getElementById("success");
+
+    function loadCart() {
+      try {
+        const raw = localStorage.getItem(CART_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function formatRupees(value) {
+      const num = parsePrice(value);
+      return "₹" + num.toLocaleString("en-IN");
+    }
+
+    function parsePrice(value) {
+      // Handles values like "₹1,299" or plain numbers
+      const raw = String(value ?? "");
+      const digits = raw.replace(/[^\d]/g, "");
+      const num = Number(digits);
+      return Number.isFinite(num) ? num : 0;
+    }
+
+    function updatePaymentInfo() {
+      const method = document.getElementById("paymentMethod")?.value || "UPI";
+      const info = document.getElementById("paymentInfo");
+      if (!info) return;
+
+      if (method === "UPI") {
+        info.innerHTML = `<strong>UPI Payment</strong><br />
+          Pay to: <code>shopx@upi</code><br />
+          Amount: <span id="upiAmount">${orderTotal.textContent || "₹0"}</span><br />
+          <div style='margin-top:8px; display:flex; align-items:center; gap:10px;'>
+            <img src='https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=upi://pay?pa=shopx@upi&pn=ShopX&am=${Number(orderTotal.textContent.replace(/[^\d]/g, "") || 0)}' alt='UPI QR' style='width:100px;height:100px;border:1px solid #999;border-radius:8px;'>
+            <div style='font-size:.95rem;'>Scan this QR and pay from your UPI app.</div>
+          </div>`;
+      } else if (method === "Debit/Credit Card") {
+        info.innerHTML = `<strong>Card Payment</strong><br />
+          Enter card number: <code>4111 1111 1111 1111</code><br />
+          Expiry: <code>12/29</code> | CVV: <code>123</code><br />
+          Name on card: <code>SHOP X USER</code>`;
+      } else if (method === "Net Banking") {
+        info.innerHTML = `<strong>Net Banking</strong><br />
+          Bank: <code>State Bank of India</code><br />
+          A/C: <code>12345678901</code><br />
+          IFSC: <code>SBIN0001234</code><br />
+          Beneficiary: <code>ShopX Fashion Pvt Ltd</code>`;
+      } else {
+        info.innerHTML = `<strong>Cash on Delivery</strong><br />
+          No online payment needed. Pay when your order arrives.`;
+      }
+    }
+
+    function renderOrder() {
+      const cart = loadCart();
+      itemList.innerHTML = "";
+      let total = 0;
+      cart.forEach((item) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<span>${item.item || item.name || "Unknown Item"}</span><strong>${formatRupees(item.price || 0)}</strong>`;
+        itemList.appendChild(li);
+        total += parsePrice(item.price || 0);
+      });
+      itemCount.textContent = cart.length.toString();
+      orderTotal.textContent = formatRupees(total);
+      if (cart.length === 0) {
+        itemList.innerHTML = '<li style="background:#ffdede;color:#900;border-radius:8px;">Your cart is empty. Go back to shop.</li>';
+      }
+      updatePaymentInfo();
+    }
+
+    document.getElementById("paymentMethod").addEventListener("change", updatePaymentInfo);
+
+    document.getElementById("confirmPayment").addEventListener("click", () => {
+      const cart = loadCart();
+      if (!cart.length) {
+        alert("No items to pay for. Add items to cart first.");
+        return;
+      }
+      const address = document.getElementById("address").value.trim();
+      if (!address) {
+        alert("Please enter your shipping address.");
+        return;
+      }
+      const method = document.getElementById("paymentMethod").value;
+      let total = 0;
+      cart.forEach((item) => { total += parsePrice(item.price || 0); });
+      const promo = document.getElementById("promo").value.trim();
+      let discount = 0;
+      if (promo.toUpperCase() === "SUPER10") {
+        discount = Math.round(total * 0.1);
+      }
+      const finalTotal = total - discount;
+
+      const currentUser = localStorage.getItem(CURRENT_USER_KEY) || "guest@shopx.local";
+      const savedOrders = JSON.parse(localStorage.getItem(ORDERS_KEY) || "[]");
+      savedOrders.push({
+        id: Date.now(),
+        email: currentUser,
+        date: new Date().toLocaleString(),
+        items: cart,
+        address,
+        method,
+        promo: promo || null,
+        total: finalTotal,
+        discount,
+        status: 'Placed',
+        review: null,
+      });
+      localStorage.setItem(ORDERS_KEY, JSON.stringify(savedOrders));
+
+      success.style.display = "block";
+      success.innerHTML = `Payment successful!<br/>Method: ${method}<br/>Delivering to: ${address}<br/>Total Paid: ${formatRupees(finalTotal)}${discount ? ` (saved ${formatRupees(discount)} with ${promo.toUpperCase()})` : ''}.`;
+      localStorage.setItem(CART_KEY, JSON.stringify([]));
+      renderOrder();
+      setTimeout(() => {
+        window.location.href = "ecom.html";
+      }, 2200);
+    });
+
+    updatePaymentInfo();
+    renderOrder();
+  </script>
+<script>
+const BG_KEY = 'shopx_bg_v1';
+function setBg(theme) {
+  let bodyBg = 'radial-gradient(circle at 20% 10%, #ff3f3f, #0d133d 45%, #050916 100%)';
+  let navBg = 'linear-gradient(90deg, #1f2a6b, #e20f1f 70%, #1f2a6b)';
+  let btnBg = '#ff2a2a';
+  let cardBg = '#ffffff';
+  if (theme === 'blue') {
+    bodyBg = 'radial-gradient(circle at 20% 10%, #4087ff, #10214c 45%, #05102d 100%)';
+    navBg = 'linear-gradient(90deg, #0a3d91, #0f5cda 70%, #0a3d91)';
+    btnBg = '#1e90ff';
+    cardBg = '#f0f6ff';
+  }
+  if (theme === 'white') {
+    bodyBg = 'radial-gradient(circle at 20% 10%, #ffffff, #e8e8ff 45%, #d9dcf5 100%)';
+    navBg = 'linear-gradient(90deg, #3f4a67, #6f7aa0 70%, #3f4a67)';
+    btnBg = '#0d47a1';
+    cardBg = '#ffffff';
+  }
+  if (theme === 'gold-black') {
+    bodyBg = 'radial-gradient(circle at 20% 10%, #f8d147, #3f2d01 45%, #09090a 100%)';
+    navBg = 'linear-gradient(90deg, #2f2100, #9f7e00 70%, #2f2100)';
+    btnBg = '#cc8400';
+    cardBg = '#fef6dc';
+  }
+  document.body.style.background = bodyBg;
+  document.querySelectorAll('.navbar').forEach((el)=>el.style.background = navBg);
+  document.querySelectorAll('.cart-icon, .back-btn, .checkout-btn, .pay-btn, .sling-back-btn').forEach((el)=>el.style.background = btnBg);
+  document.querySelectorAll('.product, .card, .container, .left-panel, .right-panel, .detail-card, .related-card').forEach((el)=>el.style.background = cardBg);
+  localStorage.setItem(BG_KEY, theme);
+}
+function loadBg() {
+  const saved = localStorage.getItem(BG_KEY) || 'original';
+  setBg(saved);
+}
+loadBg();
+</script>
+</body>
+</html>
